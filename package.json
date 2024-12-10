@@ -1,0 +1,24 @@
+{
+  "name": "electron-vue",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "src/main/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "electron:dev": "vite build && electron .",
+    "electron:build": "vite build && tsc && electron-builder",
+    "electron:publish": "set GH_TOKEN=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 && electron-builder --publish always"
+  },
+  "dependencies": {
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "vite": "^6.0.1"
+  }
+}
