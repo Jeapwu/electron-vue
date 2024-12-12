@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import HomeModule from '../module/HomeModule';
+import HomeModule from '../module/UserModule';
 export default {
-    name: 'HomeScreen1',
+    name: 'HomeScreen',
     data() {
         return {
             users: [],

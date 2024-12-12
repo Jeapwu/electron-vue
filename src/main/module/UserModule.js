@@ -1,7 +1,17 @@
 const UserMessage = require('../message/UserMessage');
 
-module.exports = {
+class UserModule {
+    constructor() {
+        this.userMessage = new UserMessage();
+    }
+
     async GetAllUsers() {
-        return UserMessage.GetAllUsers();
-    },
-};
+        return await this.userMessage.GetAllUsers();
+    }
+
+    async AddUser(user) {
+        return await this.userMessage.AddUser(user);
+    }
+}
+
+module.exports = UserModule;
