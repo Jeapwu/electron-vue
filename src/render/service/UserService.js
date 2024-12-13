@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron';
 
 class UserService {
     static async GetAllUsers() {
@@ -10,4 +10,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+export default UserService;

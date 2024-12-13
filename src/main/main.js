@@ -1,6 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const HandlerFactory = require("./handler/RegisterHandler");
+import HandlerManager from './handler/HandlerManager';
 let mainWindow;
 
 app.on('ready', () => {
@@ -11,7 +11,7 @@ app.on('ready', () => {
       preload: path.join(__dirname, 'preload.js'), // 预加载脚本
     },
   });
-  HandlerFactory.RegisterHandler();
+  const manager = HandlerManager.RegisterHandlers();
   if (!app.isPackaged) {
     mainWindow.loadURL("http://localhost:5173/");
   } else {

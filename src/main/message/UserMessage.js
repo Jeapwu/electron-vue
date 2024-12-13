@@ -16,4 +16,4 @@ class UserMessage {
     }
 }
 
-module.exports = UserMessage;
+export default UserMessage;

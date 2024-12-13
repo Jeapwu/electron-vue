@@ -1,5 +1,5 @@
-const { ipcMain } = require('electron');
-const UserModule = require('../module/UserModule');
+import { ipcMain } from 'electron';
+import UserModule from '../module/UserModule';
 
 class UserHandler {
     constructor() {
@@ -14,5 +14,5 @@ class UserHandler {
     }
 }
 
-module.exports = UserHandler;
+export default UserHandler;
 
