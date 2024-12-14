@@ -5,11 +5,11 @@ class UserHandler {
     constructor() {
         this.userModule = new UserModule();
         ipcMain.handle('User:GetAllUsers', async () => {
-            return await UserModule.GetAllUsers();
+            return await this.userModule.GetAllUsers();
         });
 
         ipcMain.handle('User:AddUser', async (user) => {
-            return await UserModule.AddUser(user);
+            return await this.userModule.AddUser(user);
         });
     }
 }

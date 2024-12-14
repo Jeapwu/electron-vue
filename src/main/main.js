@@ -10,7 +10,7 @@ app.on('ready', () => {
     webPreferences: {
       nodeIntegration: true, // 启用 Node.js 集成
       contextIsolation: false, // 禁用上下文隔离
-      preload: path.join(__dirname, 'preload.js'), // 使用 preload 脚本（推荐）
+      // preload: path.join(__dirname, 'preload.js'), // 使用 preload 脚本（推荐）
     },
   });
   const manager = HandlerManager.RegisterHandlers();
