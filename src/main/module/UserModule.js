@@ -1,4 +1,4 @@
-import UserMessage from '../message/UserMessage';
+const UserMessage = require('../message/UserMessage');
 
 class UserModule {
     constructor() {
@@ -14,4 +14,4 @@ class UserModule {
     }
 }
 
-export default UserModule;
+module.exports = UserModule;

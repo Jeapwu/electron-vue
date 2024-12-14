@@ -12,6 +12,7 @@
     "electron:publish": "set GH_TOKEN=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 && electron-builder --publish always"
   },
   "dependencies": {
+    "pinia": "^2.3.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "vuex": "^4.0.2"

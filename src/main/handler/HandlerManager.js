@@ -1,4 +1,4 @@
-import UserHandler from './UserHandler';
+const UserHandler = require('./UserHandler');
 
 class HandlerManager {
     constructor() {
@@ -26,4 +26,4 @@ class HandlerManager {
     }
 }
 
-export default HandlerManager;
+module.exports = HandlerManager;

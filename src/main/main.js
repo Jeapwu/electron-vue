@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-import HandlerManager from './handler/HandlerManager';
+const HandlerManager = require('./handler/HandlerManager');
 let mainWindow;
 
 app.on('ready', () => {
@@ -8,7 +8,9 @@ app.on('ready', () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'), // 预加载脚本
+      nodeIntegration: true, // 启用 Node.js 集成
+      contextIsolation: false, // 禁用上下文隔离
+      preload: path.join(__dirname, 'preload.js'), // 使用 preload 脚本（推荐）
     },
   });
   const manager = HandlerManager.RegisterHandlers();

@@ -1,37 +1,30 @@
-import UserService from '../service/UserService';
+import UserService from "../service/UserService";
 
 class UserModule {
     constructor() {
-        this.namespaced = true;
-        this.state = {
-            users: [],
-        };
-        this.mutations = {
-            setUsers: this.setUsers.bind(this),
-            addUser: this.addUser.bind(this),
-        };
-        this.actions = {
-            fetchUsers: this.fetchUsers.bind(this),
-            addUser: this.addUserAction.bind(this),
-        };
+        this.users = []; // 定义状态
     }
 
-    setUsers(state, users) {
-        state.users = users;
+    // 设置用户列表
+    setUsers(users) {
+        this.users = users;
     }
 
-    addUser(state, user) {
-        state.users.push(user);
+    // 添加单个用户
+    addUser(user) {
+        this.users.push(user);
     }
 
-    async fetchUsers({ commit }) {
+    // 异步获取用户列表
+    async fetchUsers() {
         const users = await UserService.getAllUsers();
-        commit('setUsers', users);
+        this.setUsers(users); // 调用类的方法
     }
 
-    async addUserAction({ commit }, user) {
+    // 异步添加用户
+    async addUser(user) {
         const newUser = await UserService.addUser(user);
-        commit('addUser', newUser);
+        this.addUser(newUser); // 调用类的方法
     }
 }
 

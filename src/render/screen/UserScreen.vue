@@ -1,37 +1,31 @@
 <template>
     <div>
-        <h1>User Management</h1>
+        <h1>User List</h1>
         <ul>
-            <li v-for="user in users" :key="user.id">{{ user.name }}</li>
+            <li v-for="user in userStore.users" :key="user.id">{{ user.name }}</li>
         </ul>
-        <input v-model="newUserName" placeholder="Add new user" />
-        <button @click="handleAddUser">Add User</button>
+        <button @click="fetchUsers">Fetch Users</button>
+        <button @click="addUser">Add User</button>
     </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { useUserStore } from '../stores/UserStore';
 
 export default {
-    data() {
-        return {
-            newUserName: '', // 用于输入新用户的名称
+    setup() {
+        const userStore = useUserStore();
+
+        const fetchUsers = async () => {
+            await userStore.fetchUsers();
         };
-    },
-    computed: {
-        ...mapState('user', ['users']), // 使用命名空间 'user' 获取状态
-    },
-    methods: {
-        ...mapActions('user', ['fetchUsers', 'addUser']), // 使用命名空间 'user' 映射方法
-        async handleAddUser() {
-            if (this.newUserName) {
-                await this.addUser({ id: Date.now(), name: this.newUserName });
-                this.newUserName = ''; // 清空输入框
-            }
-        },
-    },
-    created() {
-        this.fetchUsers(); // 在组件创建时加载用户数据
+
+        const addUser = async () => {
+            const newUser = { id: Date.now(), name: 'New User' };
+            await userStore.addUser(newUser);
+        };
+
+        return { userStore, fetchUsers, addUser };
     },
 };
 </script>
