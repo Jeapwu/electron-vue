@@ -1,21 +1,63 @@
 {
   "name": "electron-vue",
-  "private": true,
+  "productName": "electron-vue",
+  "description": "electron vue starter",
   "version": "1.0.0",
+  "author": "electron-vue",
   "type": "commonjs",
   "main": "src/main/main.js",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://www.baidu.com",
+  "repository": "https://github.com/Jeapwu/electron-vue.git",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
-    "electron:dev": "vite build && electron .",
-    "electron:build": "vite build && tsc && electron-builder",
+    "electron:start": "vite build && electron .",
+    "electron:build": "vite build && electron-builder",
     "electron:publish": "set GH_TOKEN=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 && electron-builder --publish always"
   },
+  "build": {
+    "appId": "com.electron.vue",
+    "productName": "electron-vue",
+    "files": [
+      "dist/**/*",
+      "!dist/win-unpacked/*",
+      "src/main/**/*"
+    ],
+    "win": {
+      "icon": "public/favicon.ico",
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "${productName}-v${version}-${os}-${arch}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "electron-vue"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Jeapwu",
+        "repo": "electron-vue",
+        "releaseType": "release"
+      }
+    ],
+    "extends": null,
+    "directories": {
+      "output": "dist"
+    }
+  },
   "dependencies": {
+    "electron-updater": "^6.3.9",
     "pinia": "^2.3.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
