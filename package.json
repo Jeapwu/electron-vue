@@ -32,20 +32,15 @@
       ],
       "artifactName": "${productName}-v${version}-${os}-${arch}.exe"
     },
-    "mac": {
-      "icon": "public/favicon.ico",
-      "target": [
-        "dmg"
-      ],
-      "artifactName": "${productName}-v${version}-${os}-${arch}.dmg"
-    },
     "nsis": {
       "oneClick": false,
       "perMachine": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "allowToChangeInstallationDirectory": true,
-      "shortcutName": "electron-vue"
+      "shortcutName": "electron-vue",
+      "warningsAsErrors": false,
+      "include": "installer.nsh"
     },
     "publish": [
       {

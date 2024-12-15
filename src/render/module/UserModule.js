@@ -1,8 +1,8 @@
 import UserService from "../service/UserService";
 
 class UserModule {
-    constructor() {
-    }
+    constructor() {}
+    
     // 异步获取用户列表
     async fetchUsers() {
         return await UserService.GetAllUsers();
