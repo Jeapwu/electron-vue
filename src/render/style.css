@@ -1,0 +1,51 @@
+/* 在 App.vue 或 global.css 中添加 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.main-screen {
+    padding: 10px 10px;
+    display: flex;
+    height: 100vh;
+    background-color: #121212;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.navigate {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 60px;
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.navigate-top {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    gap: 20px;
+}
+
+.navigate-switch {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    gap: 15px;
+}

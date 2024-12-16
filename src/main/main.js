@@ -23,6 +23,9 @@ app.on('window-all-closed', () => {
   }
 });
 
+app.commandLine.appendSwitch('high-dpi-support', 'true'); // 开启高 DPI 支持
+app.commandLine.appendSwitch('force-device-scale-factor', '1.0'); // 强制缩放比例
+
 autoUpdater.on("update-available", (info) => {
   mainScreen.showMessage(`Update available. Current version ${app.getVersion()}`);
   let path = autoUpdater.downloadUpdate();

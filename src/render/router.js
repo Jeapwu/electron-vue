@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import UserScreen from './screen/UserScreen.vue';
+import MainScreen from './screen/MainScreen.vue'
 
 const routes = [
-  { path: '/', name: 'User', component: UserScreen },
+  { path: '/', name: 'Main', component: MainScreen },
 ];
 
 const router = createRouter({
