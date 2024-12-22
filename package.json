@@ -2,7 +2,7 @@
   "name": "electron-vue",
   "productName": "electron-vue",
   "description": "electron vue starter",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "author": "electron-vue",
   "type": "commonjs",
   "main": "src/main/main.js",

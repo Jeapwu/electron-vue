@@ -3,10 +3,17 @@ const { app } = require("electron");
 
 class UpdateModule {
     constructor() {
+        autoUpdater.setFeedURL({
+            url: process.env.GH_URL,
+            headers: {
+                'Authorization': `token {process.env.GH_TOKEN}`,
+            }
+        });
         this.UpdateAvailable();
         this.UpdateNotAvailable();
         this.UpdateDownloaded();
         this.Error();
+        this.checkForUpdates();
     }
 
     CheckForUpdates() {
