@@ -1,14 +1,12 @@
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const MainScreen = require("./MainScreen");
-const HandlerManager = require('./handler/HandlerManager');
 
 let mainScreen;
 
 app.on('ready', () => {
   mainScreen = new MainScreen();
   autoUpdater.checkForUpdates();
-  const manager = HandlerManager.RegisterHandlers();
 });
 
 app.on('activate', () => {
@@ -22,9 +20,6 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
-app.commandLine.appendSwitch('high-dpi-support', 'true'); // 开启高 DPI 支持
-app.commandLine.appendSwitch('force-device-scale-factor', '1.0'); // 强制缩放比例
 
 autoUpdater.on("update-available", (info) => {
   mainScreen.showMessage(`Update available. Current version ${app.getVersion()}`);

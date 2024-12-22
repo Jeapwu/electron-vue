@@ -2,7 +2,13 @@ const UserHandler = require('./UserHandler');
 
 class HandlerManager {
     constructor() {
+        if (HandlerManager.instance) {
+            return HandlerManager.instance;
+        }
+
         this.handlers = new Map();
+        HandlerManager.instance = this;
+        this.RegisterHandlers();
     }
 
     AddHandler(name, handler) {
@@ -19,11 +25,15 @@ class HandlerManager {
         return this.handlers.get(name);
     }
 
-    static RegisterHandlers() {
-        const manager = new HandlerManager();
-        manager.AddHandler('UserHandler', new UserHandler());
-        return manager;
+    RegisterHandlers() {
+        try {
+            this.AddHandler("UserHandler", new UserHandler());
+        } catch (error) {
+            console.error(`Failed to register handler ": ${error.message}`);
+        }
     }
 }
 
-module.exports = HandlerManager;
+const manager = new HandlerManager();
+Object.freeze(manager);
+module.exports = manager;

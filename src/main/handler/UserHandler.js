@@ -1,9 +1,9 @@
 const { ipcMain } = require('electron');
-const UserModule = require('../module/UserModule');
+const ModuleManager = require('../module/ModuleManager');
 
 class UserHandler {
     constructor() {
-        this.userModule = new UserModule();
+        this.userModule = ModuleManager.GetModule("UserModule");
         ipcMain.handle('User:GetAllUsers', async () => {
             return await this.userModule.GetAllUsers();
         });
