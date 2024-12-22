@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import UserModule from '../module/UserModule';
+import ModuleManager from '../module/ModuleManager';
 
-const userModule = new UserModule();
+const userModule = ModuleManager.GetModule("UserModule");
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({

@@ -1,4 +1,5 @@
 const UserModule = require("./UserModule");
+const UpdateModule = require("./UpdateModule");
 
 class ModuleManager {
     constructor() {
@@ -27,6 +28,7 @@ class ModuleManager {
 
     RegisterModules() {
         try {
+            this.AddModule("UpdateModule", new UpdateModule());
             this.AddModule("UserModule", new UserModule());
         } catch (error) {
             console.error(`Failed to register module ": ${error.message}`);

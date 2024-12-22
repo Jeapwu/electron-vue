@@ -2,7 +2,7 @@
   "name": "electron-vue",
   "productName": "electron-vue",
   "description": "electron vue starter",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "electron-vue",
   "type": "commonjs",
   "main": "src/main/main.js",
@@ -15,7 +15,7 @@
     "build": "vite build",
     "electron:start": "vite build && electron .",
     "electron:build": "vite build && electron-builder",
-    "electron:publish": "set GH_TOKEN=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 && electron-builder --publish always"
+    "electron:publish": "set GH_TOKEN=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 && electron-builder --publish always"
   },
   "build": {
     "appId": "com.electron.vue",
