@@ -1,8 +1,5 @@
 <template>
     <div class="main-screen">
-        <!-- 左侧部分 -->
-        <Navigate></Navigate>
-        <!-- 右侧部分 -->
         <div class="main-content">
             <Header></Header>
             <Home></Home>
