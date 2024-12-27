@@ -10,10 +10,9 @@
 <script>
 import Header from './component/header/Header.vue'
 import Home from './component/main/Home.vue'
-import Navigate from './component/navigate/Navigate.vue'
 
 export default {
     name: "MainScreen",
-    components: { Header, Home, Navigate }
+    components: { Header, Home}
 };
 </script>

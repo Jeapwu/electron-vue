@@ -4,7 +4,7 @@ const path = require("path");
 class MainScreen {
     constructor() {
         this.window = new BrowserWindow({
-            width: 980, height: 720,
+            width: 980, height: 720, frame: false,
             webPreferences: {
                 nodeIntegration: true, // 启用 Node.js 集成
                 contextIsolation: true, // 禁用上下文隔离
