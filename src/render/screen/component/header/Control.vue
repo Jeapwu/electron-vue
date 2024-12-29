@@ -13,7 +13,6 @@ export default {
     name: "ControlScreen",
     components: { ElButton },
     setup() {
-        // 点击事件处理函数
         const handleMinimize = () => {
             console.log("最小化按钮被点击");
         };
@@ -26,10 +25,7 @@ export default {
             console.log("关闭按钮被点击");
         };
         return {
-            Minus, Expand, Close,
-            handleMinimize,
-            handleMaximize,
-            handleClose
+            Minus, Expand, Close, handleMinimize, handleMaximize, handleClose
         };
     }
 };
