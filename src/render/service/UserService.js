@@ -1,12 +1,11 @@
-const { ipcRenderer } = require('electron');
 
 class UserService {
     static async GetAllUsers() {
-        return await ipcRenderer.invoke('User:GetAllUsers');
+        return await window.Api.invoke('User:GetAllUsers');
     }
 
     static async AddUser(user) {
-        return await ipcRenderer.invoke('User:AddUser', user);
+        return await window.Api.invoke('User:AddUser', user);
     }
 }
 

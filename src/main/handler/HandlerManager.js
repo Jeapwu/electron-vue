@@ -1,4 +1,5 @@
 const UserHandler = require('./UserHandler');
+const ControlHandler = require('./ControlHandler');
 
 class HandlerManager {
     constructor() {
@@ -13,24 +14,34 @@ class HandlerManager {
 
     AddHandler(name, handler) {
         if (this.handlers.has(name)) {
-            throw new Error(`Handler with name "${name}" is already registered.`);
+            console.warn(`Handler "${name}" is already registered. Skipping...`);
+            return;
         }
         this.handlers.set(name, handler);
+        console.log(`Handler "${name}" registered successfully.`);
     }
 
     GetHandler(name) {
         if (!this.handlers.has(name)) {
-            throw new Error(`Handler with name "${name}" is not found.`);
+            throw new Error(`Handler "${name}" is not found.`);
         }
         return this.handlers.get(name);
     }
 
     RegisterHandlers() {
-        try {
-            this.AddHandler("UserHandler", new UserHandler());
-        } catch (error) {
-            console.error(`Failed to register handler ": ${error.message}`);
-        }
+        const handlers = {
+            UserHandler,
+            ControlHandler,
+        };
+
+        Object.entries(handlers).forEach(([name, HandlerClass]) => {
+            try {
+                const handlerInstance = new HandlerClass();
+                this.AddHandler(name, handlerInstance);
+            } catch (error) {
+                console.error(`Failed to register handler "${name}": ${error.message}`);
+            }
+        });
     }
 }
 

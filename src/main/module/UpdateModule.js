@@ -3,17 +3,11 @@ const { app } = require("electron");
 
 class UpdateModule {
     constructor() {
-        autoUpdater.setFeedURL({
-            url: process.env.GH_URL,
-            headers: {
-                'Authorization': `token {process.env.GH_TOKEN}`,
-            }
-        });
         this.UpdateAvailable();
         this.UpdateNotAvailable();
         this.UpdateDownloaded();
         this.Error();
-        this.checkForUpdates();
+        this.CheckForUpdates();
     }
 
     CheckForUpdates() {
@@ -23,26 +17,26 @@ class UpdateModule {
     UpdateAvailable() {
         autoUpdater.on("update-available", (info) => {
             console.log(info);
-            global.mainScreen.ShowMessage("UpdateReply", `Update available. Current version ${app.getVersion()}`);
+            global.mainScreen.SendMessage("UpdateAvailable", `Update available. Current version ${app.getVersion()}`);
             let path = autoUpdater.downloadUpdate();
-            global.mainScreen.ShowMessage("UpdateReply", path);
+            global.mainScreen.SendMessage("UpdateAvailable", path);
         });
     }
 
     UpdateNotAvailable() {
         autoUpdater.on("update-not-available", (info) => {
             console.log(info);
-            global.mainScreen.ShowMessage("UpdateReply", `No update available. Current version ${app.getVersion()}`);
+            global.mainScreen.SendMessage("UpdateNotAvailable", `No update available. Current version ${app.getVersion()}`);
         });
     }
 
     UpdateDownloaded() {
         autoUpdater.on("update-downloaded", (info) => {
             console.log(info);
-            global.mainScreen.ShowMessage("UpdateReply", `Update downloaded. Current version ${app.getVersion()}`);
+            global.mainScreen.SendMessage("UpdateDownloaded", `Update downloaded. Current version ${app.getVersion()}`);
 
             setTimeout(() => {
-                global.mainScreen.ShowMessage("UpdateReply", "The application will restart to apply the update.");
+                global.mainScreen.SendMessage("UpdateDownloaded", "The application will restart to apply the update.");
                 autoUpdater.quitAndInstall();
             }, 1000);
         });
@@ -50,7 +44,7 @@ class UpdateModule {
 
     Error() {
         autoUpdater.on("error", (info) => {
-            global.mainScreen.ShowMessage("UpdateReply", info);
+            global.mainScreen.SendMessage("Error", info);
         });
     }
 }

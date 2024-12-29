@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const MainScreen = require("./MainScreen");
+const HandlerManager = require('./handler/HandlerManager');
 
 global.mainScreen = null;
 

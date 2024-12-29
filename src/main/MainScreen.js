@@ -6,8 +6,10 @@ class MainScreen {
         this.window = new BrowserWindow({
             width: 980, height: 720, frame: false,
             webPreferences: {
-                nodeIntegration: true, // 启用 Node.js 集成
-                contextIsolation: true, // 禁用上下文隔离
+                contextIsolation: true, // 隔离上下文，避免主进程和渲染进程直接共享对象
+                nodeIntegration: false, // 禁用 Node.js 集成
+                enableRemoteModule: false, // 禁用远程模块（如果不需要）
+                sandbox: true, // 启用沙盒模式
                 preload: path.join(__dirname, "./preload.js"),
             },
         });
@@ -18,7 +20,7 @@ class MainScreen {
     ReadyToShow() {
         this.window.once("ready-to-show", () => {
             this.window.show();
-            this.ShowMessage("UpdateReply", `Checking for updates. Current version ${app.getVersion()}`);
+            this.SendMessage("ReadyToShow", `Checking for updates. Current version ${app.getVersion()}`);
         });
     }
 
@@ -30,7 +32,7 @@ class MainScreen {
         }
     }
 
-    ShowMessage(channel, message) {
+    SendMessage(channel, message) {
         this.window.webContents.send(channel, message);
     }
 }

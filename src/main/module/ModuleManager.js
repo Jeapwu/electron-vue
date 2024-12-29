@@ -1,6 +1,6 @@
 const UserModule = require("./UserModule");
 const UpdateModule = require("./UpdateModule");
-const ControlModule = require("./ControlModule")
+const ControlModule = require("./ControlModule");
 
 class ModuleManager {
     constructor() {
@@ -15,29 +15,38 @@ class ModuleManager {
 
     AddModule(name, module) {
         if (this.modules.has(name)) {
-            throw new Error(`Module with name "${name}" is already registered.`);
+            console.warn(`Module "${name}" is already registered. Skipping...`);
+            return;
         }
         this.modules.set(name, module);
+        console.log(`Module "${name}" registered successfully.`);
     }
 
     GetModule(name) {
         if (!this.modules.has(name)) {
-            throw new Error(`Module with name "${name}" is not found.`);
+            throw new Error(`Module "${name}" is not found.`);
         }
         return this.modules.get(name);
     }
 
     RegisterModules() {
-        try {
-            this.AddModule("UpdateModule", new UpdateModule());
-            this.AddModule("UserModule", new UserModule());
-            this.AddModule("ControlModule", new ControlModule());
-        } catch (error) {
-            console.error(`Failed to register module ": ${error.message}`);
-        }
+        const modules = {
+            UpdateModule,
+            UserModule,
+            ControlModule,
+        };
+
+        Object.entries(modules).forEach(([name, ModuleClass]) => {
+            try {
+                const moduleInstance = new ModuleClass();
+                this.AddModule(name, moduleInstance);
+            } catch (error) {
+                console.error(`Failed to register module "${name}": ${error.message}`);
+            }
+        });
     }
 }
 
-const manager = new ModuleManager(); 
+const manager = new ModuleManager();
 Object.freeze(manager);
 module.exports = manager;

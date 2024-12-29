@@ -1,14 +1,27 @@
 
 class ControlModule {
-    constructor() {
-    }
+    constructor() {}
 
     async Minimize() {
-        return await this.userMessage.GetAllUsers();
+        if (global.mainScreen) {
+            global.mainScreen.window.minimize();
+        }
     }
 
     async Maximize() {
-        return await this.userMessage.AddUser(user);
+        if (global.mainScreen) {
+            if (global.mainScreen.window.isMaximized()) {
+                global.mainScreen.window.unmaximize();
+            } else {
+                global.mainScreen.window.maximize();
+            }
+        }
+    }
+
+    async Close() {
+        if (global.mainScreen) {
+            global.mainScreen.window.close();
+        }
     }
 }
 

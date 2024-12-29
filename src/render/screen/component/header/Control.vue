@@ -1,32 +1,34 @@
 <template>
     <div class="control">
-        <el-button size="small" :icon="Minus" id="minimize" @click="handleMinimize"></el-button>
-        <el-button size="small" :icon="Expand" id="maximize" @click="handleMaximize"></el-button>
-        <el-button size="small" :icon="Close" id="close" type="danger" @click="handleClose"></el-button>
+        <el-button size="small" :icon="Minus" id="minimize" @click="MinimizeHandler"></el-button>
+        <el-button size="small" :icon="Expand" id="maximize" @click="MaximizeHandler"></el-button>
+        <el-button size="small" :icon="Close" id="close" type="danger" @click="CloseHandler"></el-button>
     </div>
 </template>
 
 <script>
 import { ElButton } from 'element-plus';
 import { Minus, Expand, Close } from '@element-plus/icons-vue';
+import { useControlStore } from '@/render/stores/ControlStore';
 export default {
     name: "ControlScreen",
     components: { ElButton },
     setup() {
-        const handleMinimize = () => {
-            console.log("最小化按钮被点击");
+        const controlStore = useControlStore();
+
+        const MinimizeHandler = async () => {
+            await controlStore.Minimize();
         };
 
-        const handleMaximize = () => {
-            console.log("最大化按钮被点击");
+        const MaximizeHandler = async () => {
+            await controlStore.Maximize();
         };
 
-        const handleClose = () => {
-            console.log("关闭按钮被点击");
+        const CloseHandler = async () => {
+            await controlStore.Close();
         };
-        return {
-            Minus, Expand, Close, handleMinimize, handleMaximize, handleClose
-        };
+
+        return { Minus, Expand, Close, MinimizeHandler, MaximizeHandler, CloseHandler };
     }
 };
 </script>
