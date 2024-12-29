@@ -1,27 +1,43 @@
-import UpdateService from "../service/ControlService";
+import UpdateService from "../service/UpdateService";
 
 class UpdateModule {
     constructor() {
+        this.ReadyToShow();
+        this.UpdateAvailable();
+        this.UpdateNotAvailable();
+        this.UpdateDownloaded();
+        this.Error();
     }
 
     async ReadyToShow() {
-        return await UpdateService.ReadyToShow();
+        await UpdateService.ReadyToShow((obj)=>{
+            console.log(obj)
+        });
     }
 
     async UpdateAvailable() {
-        return await UpdateService.UpdateAvailable();
+        await UpdateService.UpdateAvailable((obj)=>{
+            console.log(obj)
+        });
     }
 
     async UpdateNotAvailable() {
-        return await UpdateService.UpdateNotAvailable();
+
+        await UpdateService.UpdateNotAvailable((obj)=>{
+            console.log(obj)
+        });
     }
 
     async UpdateDownloaded() {
-        return await UpdateService.UpdateDownloaded();
+        await UpdateService.UpdateDownloaded((obj)=>{
+            console.log(obj)
+        });
     }
 
     async Error() {
-        return await UpdateService.Error();
+        await UpdateService.Error((obj)=>{
+            console.log(obj)
+        });
     }
 }
 
