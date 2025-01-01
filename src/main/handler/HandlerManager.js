@@ -1,5 +1,6 @@
 const UserHandler = require('./UserHandler');
 const ControlHandler = require('./ControlHandler');
+const LogHelper = require('../../helper/LogHelper');
 
 class HandlerManager {
     constructor() {
@@ -14,11 +15,11 @@ class HandlerManager {
 
     AddHandler(name, handler) {
         if (this.handlers.has(name)) {
-            console.warn(`Handler "${name}" is already registered. Skipping...`);
+            LogHelper.warn(`Handler "${name}" is already registered. Skipping...`);
             return;
         }
         this.handlers.set(name, handler);
-        console.log(`Handler "${name}" registered successfully.`);
+        LogHelper.debug(`Handler "${name}" registered successfully.`);
     }
 
     GetHandler(name) {
@@ -39,7 +40,7 @@ class HandlerManager {
                 const handlerInstance = new HandlerClass();
                 this.AddHandler(name, handlerInstance);
             } catch (error) {
-                console.error(`Failed to register handler "${name}": ${error.message}`);
+                LogHelper.error(`Failed to register handler "${name}": ${error.message}`);
             }
         });
     }

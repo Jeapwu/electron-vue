@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const MainScreen = require("./MainScreen");
+const ModuleManager = require("./module/ModuleManager");
 const HandlerManager = require('./handler/HandlerManager');
 
 global.mainScreen = null;
@@ -7,6 +8,8 @@ global.mainScreen = null;
 app.on('ready', () => {
   if (global.mainScreen === null) {
     global.mainScreen = new MainScreen();
+    const updater = ModuleManager.GetModule("UpdateModule");
+    updater.CheckForUpdates();
   }
 });
 

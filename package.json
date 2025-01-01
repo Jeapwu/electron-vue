@@ -2,7 +2,7 @@
   "name": "electron-vue",
   "productName": "electron-vue",
   "description": "electron vue starter",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "author": "electron-vue",
   "type": "commonjs",
   "main": "src/main/main.js",
@@ -15,7 +15,7 @@
     "build": "vite build",
     "electron:start": "vite build && electron .",
     "electron:build": "vite build && electron-builder",
-    "electron:publish": "set GH_TOKEN=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 && electron-builder --publish always"
+    "electron:publish": "set GH_TOKEN=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 && vite build && electron-builder --publish always"
   },
   "build": {
     "appId": "com.electron.vue",
@@ -23,7 +23,8 @@
     "files": [
       "dist/**/*",
       "!dist/win-unpacked/*",
-      "src/main/**/*"
+      "src/main/**/*",
+      "src/helper/**/*"
     ],
     "win": {
       "icon": "public/favicon.ico",
@@ -56,6 +57,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "electron-log": "^5.2.4",
     "electron-updater": "^6.3.9",
     "element-plus": "^2.9.1",
     "pinia": "^2.3.0",

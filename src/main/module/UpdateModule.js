@@ -1,5 +1,6 @@
 const { autoUpdater } = require("electron-updater");
 const { app } = require("electron");
+const LogHelper = require('../../helper/LogHelper');
 
 class UpdateModule {
     constructor() {
@@ -10,7 +11,6 @@ class UpdateModule {
         this.CheckingForUpdate();
         this.DownloadProgress();
         this.Error();
-        this.CheckForUpdates();
     }
 
     Initialize() {
@@ -22,7 +22,7 @@ class UpdateModule {
 
     UpdateAvailable() {
         autoUpdater.on("update-available", (info) => {
-            console.log(info);
+            LogHelper.debug(info);
             global.mainScreen.SendMessage("UpdateAvailable", `Update available. Current version ${app.getVersion()}`);
             let path = autoUpdater.downloadUpdate();
             global.mainScreen.SendMessage("UpdateAvailable", path);
@@ -31,14 +31,14 @@ class UpdateModule {
 
     UpdateNotAvailable() {
         autoUpdater.on("update-not-available", (info) => {
-            console.log(info);
+            LogHelper.debug(info);
             global.mainScreen.SendMessage("UpdateNotAvailable", `No update available. Current version ${app.getVersion()}`);
         });
     }
 
     UpdateDownloaded() {
         autoUpdater.on("update-downloaded", (info) => {
-            console.log(info);
+            LogHelper.debug(info);
             global.mainScreen.SendMessage("UpdateDownloaded", `Update downloaded. Current version ${app.getVersion()}`);
 
             setTimeout(() => {
@@ -50,14 +50,14 @@ class UpdateModule {
 
     CheckingForUpdate() {
         autoUpdater.on("checking-for-update", () => {
-            console.log("Checking for updates...");
+            LogHelper.debug("Checking for updates...");
             global.mainScreen.SendMessage("CheckingForUpdate", "Checking for updates...");
         });
     }
 
     DownloadProgress() {
         autoUpdater.on("download-progress", (progressInfo) => {
-            console.log("Download progress:", progressInfo);
+            LogHelper.debug("Download progress:", progressInfo);
             const message = `Download speed: ${progressInfo.bytesPerSecond} - 
                 Downloaded ${progressInfo.percent}% (${progressInfo.transferred}/${progressInfo.total})`;
             global.mainScreen.SendMessage("DownloadProgress", message);

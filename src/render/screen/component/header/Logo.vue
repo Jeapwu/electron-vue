@@ -14,5 +14,6 @@ export default {
 .logo {
     display: flex; justify-content: center; align-items: center;
     background-color: yellow;
+    -webkit-app-region: no-drag;
 }
 </style>
