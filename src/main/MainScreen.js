@@ -21,18 +21,6 @@ class MainScreen {
         this.window.once("ready-to-show", () => {
             this.window.show();
             this.SendMessage("ReadyToShow", `Checking for updates. Current version ${app.getVersion()}`);
-
-            setTimeout(() => {
-                global.mainScreen.SendMessage('UpdateAvailable', { version: '1.2.3', notes: 'Bug fixes and improvements.' });
-              }, 2000);
-              
-              setTimeout(() => {
-                global.mainScreen.SendMessage('UpdateDownloaded', { path: '/path/to/file', size: '45MB' });
-              }, 3000);
-              
-              setTimeout(() => {
-                global.mainScreen.SendMessage('Error', { code: 500, message: 'Server not reachable.' });
-              }, 4000);
         });
     }
 

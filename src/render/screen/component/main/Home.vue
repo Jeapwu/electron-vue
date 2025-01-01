@@ -1,21 +1,22 @@
 <template>
     <div class="home">
-        {{ status }}
+        <h3>{{ status }}</h3>
     </div>
 </template>
 
 <script>
 import { useUpdateStore } from '@/render/stores/UpdateStore';
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 
 export default {
     setup() {
         const updateStore = useUpdateStore();
         const { status } = storeToRefs(updateStore);
 
-        // onMounted(() => {
-        //     updateStore.AutoBind();
-        // });
+        onMounted(() => {
+            updateStore.AutoBind();
+        });
 
         return { status };
     },
@@ -24,6 +25,9 @@ export default {
 
 <style scoped>
 .home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
 }

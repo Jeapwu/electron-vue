@@ -1,43 +1,35 @@
 import UpdateService from "../service/UpdateService";
 
 class UpdateModule {
-    constructor() {
-        this.ReadyToShow();
-        this.UpdateAvailable();
-        this.UpdateNotAvailable();
-        this.UpdateDownloaded();
-        this.Error();
+    constructor() { }
+
+    async ReadyToShow(SetStatus) {
+        await UpdateService.ReadyToShow(SetStatus);
     }
 
-    async ReadyToShow() {
-        await UpdateService.ReadyToShow((obj)=>{
-            console.log(obj)
-        });
+    async UpdateAvailable(SetStatus) {
+        await UpdateService.UpdateAvailable(SetStatus);
     }
 
-    async UpdateAvailable() {
-        await UpdateService.UpdateAvailable((obj)=>{
-            console.log(obj)
-        });
+    async UpdateNotAvailable(SetStatus) {
+
+        await UpdateService.UpdateNotAvailable(SetStatus);
     }
 
-    async UpdateNotAvailable() {
-
-        await UpdateService.UpdateNotAvailable((obj)=>{
-            console.log(obj)
-        });
+    async UpdateDownloaded(SetStatus) {
+        await UpdateService.UpdateDownloaded(SetStatus);
     }
 
-    async UpdateDownloaded() {
-        await UpdateService.UpdateDownloaded((obj)=>{
-            console.log(obj)
-        });
+    async CheckingForUpdate(SetStatus) {
+        await UpdateService.CheckingForUpdate(SetStatus);
     }
 
-    async Error() {
-        await UpdateService.Error((obj)=>{
-            console.log(obj)
-        });
+    async DownloadProgress(SetStatus) {
+        await UpdateService.DownloadProgress(SetStatus);
+    }
+
+    async Error(SetStatus) {
+        await UpdateService.Error(SetStatus);
     }
 }
 

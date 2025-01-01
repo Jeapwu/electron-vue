@@ -16,6 +16,14 @@ class UpdateService {
         await window.Api.recv('UpdateDownloaded', callback);
     }
 
+    static async CheckingForUpdate(callback) {
+        await window.Api.recv('CheckingForUpdate', callback);
+    }
+
+    static async DownloadProgress(callback) {
+        await window.Api.recv('DownloadProgress', callback);
+    }
+
     static async Error(callback) {
         await window.Api.recv('Error', callback);
     }

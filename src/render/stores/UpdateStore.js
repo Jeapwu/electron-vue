@@ -14,6 +14,8 @@ export const useUpdateStore = defineStore('updateStore', {
             updateModule.UpdateAvailable(this.SetStatus);
             updateModule.UpdateNotAvailable(this.SetStatus);
             updateModule.UpdateDownloaded(this.SetStatus);
+            updateModule.CheckingForUpdate(this.SetStatus);
+            updateModule.DownloadProgress(this.SetStatus);
             updateModule.Error(this.SetStatus);
         },
 

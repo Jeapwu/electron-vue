@@ -3,11 +3,17 @@ const { app } = require("electron");
 
 class UpdateModule {
     constructor() {
+        this.Initialize();
         this.UpdateAvailable();
         this.UpdateNotAvailable();
         this.UpdateDownloaded();
+        this.CheckingForUpdate();
+        this.DownloadProgress();
         this.Error();
         this.CheckForUpdates();
+    }
+
+    Initialize() {
     }
 
     CheckForUpdates() {
@@ -39,6 +45,22 @@ class UpdateModule {
                 global.mainScreen.SendMessage("UpdateDownloaded", "The application will restart to apply the update.");
                 autoUpdater.quitAndInstall();
             }, 1000);
+        });
+    }
+
+    CheckingForUpdate() {
+        autoUpdater.on("checking-for-update", () => {
+            console.log("Checking for updates...");
+            global.mainScreen.SendMessage("CheckingForUpdate", "Checking for updates...");
+        });
+    }
+
+    DownloadProgress() {
+        autoUpdater.on("download-progress", (progressInfo) => {
+            console.log("Download progress:", progressInfo);
+            const message = `Download speed: ${progressInfo.bytesPerSecond} - 
+                Downloaded ${progressInfo.percent}% (${progressInfo.transferred}/${progressInfo.total})`;
+            global.mainScreen.SendMessage("DownloadProgress", message);
         });
     }
 
