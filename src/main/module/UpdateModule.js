@@ -1,6 +1,7 @@
 const { autoUpdater } = require("electron-updater");
 const { app } = require("electron");
 const LogHelper = require('../../helper/LogHelper');
+const UpdateScreen = require("../UpdateScreen");
 
 class UpdateModule {
     constructor() {
@@ -23,26 +24,26 @@ class UpdateModule {
     UpdateAvailable() {
         autoUpdater.on("update-available", (info) => {
             LogHelper.debug(info);
-            global.mainScreen.SendMessage("UpdateAvailable", `Update available. Current version ${app.getVersion()}`);
-            let path = autoUpdater.downloadUpdate();
-            global.mainScreen.SendMessage("UpdateAvailable", path);
+            this.updateScreen.SendMessage("UpdateAvailable", `Update available. Current version ${app.getVersion()}`);
+            const path = autoUpdater.downloadUpdate();
+            this.updateScreen.SendMessage("UpdateAvailable", path);
         });
     }
 
     UpdateNotAvailable() {
         autoUpdater.on("update-not-available", (info) => {
             LogHelper.debug(info);
-            global.mainScreen.SendMessage("UpdateNotAvailable", `No update available. Current version ${app.getVersion()}`);
+            this.updateScreen.SendMessage("UpdateNotAvailable", `No update available. Current version ${app.getVersion()}`);
         });
     }
 
     UpdateDownloaded() {
         autoUpdater.on("update-downloaded", (info) => {
             LogHelper.debug(info);
-            global.mainScreen.SendMessage("UpdateDownloaded", `Update downloaded. Current version ${app.getVersion()}`);
+            this.updateScreen.SendMessage("UpdateDownloaded", `Update downloaded. Current version ${app.getVersion()}`);
 
             setTimeout(() => {
-                global.mainScreen.SendMessage("UpdateDownloaded", "The application will restart to apply the update.");
+                this.updateScreen.SendMessage("UpdateDownloaded", "The application will restart to apply the update.");
                 autoUpdater.quitAndInstall();
             }, 1000);
         });
@@ -51,7 +52,8 @@ class UpdateModule {
     CheckingForUpdate() {
         autoUpdater.on("checking-for-update", () => {
             LogHelper.debug("Checking for updates...");
-            global.mainScreen.SendMessage("CheckingForUpdate", "Checking for updates...");
+            this.updateScreen = new UpdateScreen();
+            this.updateScreen.SendMessage("CheckingForUpdate", "Checking for updates...");
         });
     }
 
@@ -60,13 +62,13 @@ class UpdateModule {
             LogHelper.debug("Download progress:", progressInfo);
             const message = `Download speed: ${progressInfo.bytesPerSecond} - 
                 Downloaded ${progressInfo.percent}% (${progressInfo.transferred}/${progressInfo.total})`;
-            global.mainScreen.SendMessage("DownloadProgress", message);
+            this.updateScreen.SendMessage("DownloadProgress", message);
         });
     }
 
     Error() {
         autoUpdater.on("error", (info) => {
-            global.mainScreen.SendMessage("Error", info);
+            this.updateScreen.SendMessage("Error", info);
         });
     }
 }

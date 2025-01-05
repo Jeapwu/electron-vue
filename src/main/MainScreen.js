@@ -15,12 +15,18 @@ class MainScreen {
         });
         this.ReadyToShow();
         this.LoadHtml();
+        this.Closed();
     }
 
     ReadyToShow() {
         this.window.once("ready-to-show", () => {
             this.window.show();
-            this.SendMessage("ReadyToShow", `Checking for updates. Current version ${app.getVersion()}`);
+        });
+    }
+
+    Closed() {
+        this.window.on('closed', () => {
+            this.window = null;
         });
     }
 

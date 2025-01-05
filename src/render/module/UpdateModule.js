@@ -8,6 +8,7 @@ class UpdateModule {
     }
 
     async UpdateAvailable(SetStatus) {
+        
         await UpdateService.UpdateAvailable(SetStatus);
     }
 

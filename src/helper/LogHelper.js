@@ -19,7 +19,7 @@ class LogHelper {
             fs.mkdirSync(this.logPath, { recursive: true });
         }
         this.log.transports.file.fileName = `App-${this.BuildTimestamp()}.log`;
-        this.log.transports.file.resolvePath = () => path.join(this.logPath, this.log.transports.file.fileName);
+        this.log.transports.file.resolvePathFn = () => path.join(this.logPath, this.log.transports.file.fileName);
 
         this.log.transports.file.level = 'debug';
         this.log.transports.console.level = 'debug';
