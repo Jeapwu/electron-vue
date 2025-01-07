@@ -1,6 +1,7 @@
 <template>
   <div class="header">
     <Logo></Logo>
+    <Navigate></Navigate>
     <Control></Control>
   </div>
 </template>
@@ -8,9 +9,10 @@
 <script>
 import Logo from "./Logo.vue";
 import Control from "./Control.vue";
+import Navigate from "../navigate/Navigate.vue"
 export default {
   name: "HeaderScreen",
-  components: { Logo, Control }
+  components: { Logo, Control, Navigate }
 };
 </script>
 

@@ -1,25 +1,12 @@
 <template>
     <div class="home">
-        <h3>{{ status }}</h3>
+        <h3>这是首页</h3>
     </div>
 </template>
 
 <script>
-import { useUpdateStore } from '@/render/stores/UpdateStore';
-import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
-
 export default {
-    setup() {
-        const updateStore = useUpdateStore();
-        const { status } = storeToRefs(updateStore);
-
-        onMounted(() => {
-            updateStore.AutoBind();
-        });
-
-        return { status };
-    },
+    name: "Home",
 };
 </script>
 
