@@ -14,7 +14,7 @@
 .navigate {
   display: flex;
   justify-content: space-around;
-  gap: 10px;
+  gap: 20px;
   background: #f0f0f0;
   padding: 10px 10px;
   -webkit-app-region: no-drag;

@@ -1,7 +1,11 @@
 <template>
   <div class="header">
     <Logo></Logo>
+    <Search></Search>
     <Navigate></Navigate>
+    <SiteMsg></SiteMsg>
+    <Auth></Auth>
+    <Setting></Setting>
     <Control></Control>
   </div>
 </template>
@@ -10,9 +14,13 @@
 import Logo from "./Logo.vue";
 import Control from "./Control.vue";
 import Navigate from "../navigate/Navigate.vue"
+import Search from "./Search.vue";
+import Auth from "./Auth.vue";
+import SiteMsg from "./SiteMsg.vue";
+import Setting from "./Setting.vue";
 export default {
   name: "HeaderScreen",
-  components: { Logo, Control, Navigate }
+  components: { Logo, Control, Navigate, Search, Auth, SiteMsg, Setting }
 };
 </script>
 
