@@ -31,6 +31,10 @@ class UpdateService {
     static async Close() {
         await window.Api.invoke('Update:Close', null);
     }
+
+    static async ResetScreen(size) {
+        await window.Api.invoke('Update:ResetScreen', size);
+    }
 }
 
 export default UpdateService;

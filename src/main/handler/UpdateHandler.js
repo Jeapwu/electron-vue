@@ -11,6 +11,10 @@ class UpdateHandler {
         ipcMain.handle('Update:Close', async () => {
             return await this.updateModule.Close();
         });
+
+        ipcMain.handle('Update:ResetScreen', async (event, size) => {
+            return await this.updateModule.ResetScreen(size);
+        })
     }
 }
 

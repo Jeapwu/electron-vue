@@ -81,6 +81,13 @@ class UpdateModule {
             global.mainScreen.window.show();
         }
     }
+
+    ResetScreen(size) {
+        if (global.updateScreen) {
+            global.updateScreen.window.setResizable(true);
+            global.updateScreen.window.setSize(size.width, size.height);
+        }
+    }
 }
 
 module.exports = UpdateModule;

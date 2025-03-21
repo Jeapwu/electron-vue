@@ -73,12 +73,17 @@ export default {
         };
 
         const startUpdate = () => {
+            resetScreen();
             isUpdating.value = true; // 开始更新
             simulateUpdate(); // 模拟更新进度
         };
 
         const resetScreen = () => {
-
+            const size = {
+                width: 450,
+                height: 200
+            };
+            updateStore.ResetScreen(size);
         };
 
         // 模拟更新进度
@@ -88,7 +93,7 @@ export default {
                     progress.value += 10; // 每次增加 10%
                 } else {
                     clearInterval(interval); // 更新完成
-                    alert("更新完成，即将重新启动...");
+                    //alert("更新完成，即将重新启动...");
                     // 这里可以添加重新启动的逻辑
                 }
             }, 500); // 每 500ms 更新一次

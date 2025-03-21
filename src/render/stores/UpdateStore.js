@@ -26,5 +26,9 @@ export const useUpdateStore = defineStore('updateStore', {
         async Close() {
             await updateModule.Close();
         },
+
+        async ResetScreen(size) {
+            await updateModule.ResetScreen(size);
+        }
     }
 });

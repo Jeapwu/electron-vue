@@ -36,6 +36,11 @@ class UpdateModule {
     async Close() {
         await UpdateService.Close();
     }
+
+    async ResetScreen(size) {
+        console.log(size);
+        await UpdateService.ResetScreen(size);
+    }
 }
 
 export default UpdateModule;
