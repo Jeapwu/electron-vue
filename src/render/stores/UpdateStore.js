@@ -22,5 +22,9 @@ export const useUpdateStore = defineStore('updateStore', {
         async SetStatus(status) {
             this.status = status;
         },
+
+        async Close() {
+            await updateModule.Close();
+        },
     }
 });

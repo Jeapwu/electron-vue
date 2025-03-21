@@ -27,6 +27,10 @@ class UpdateService {
     static async Error(callback) {
         await window.Api.recv('Error', callback);
     }
+
+    static async Close() {
+        await window.Api.invoke('Update:Close', null);
+    }
 }
 
 export default UpdateService;

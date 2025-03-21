@@ -71,6 +71,16 @@ class UpdateModule {
             this.updateScreen.SendMessage("Error", info);
         });
     }
+
+    Close() {
+        if (global.updateScreen) {
+            global.updateScreen.window.close();
+        }
+
+        if (global.mainScreen) {
+            global.mainScreen.window.show();
+        }
+    }
 }
 
 module.exports = UpdateModule;

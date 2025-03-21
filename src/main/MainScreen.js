@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
+const UpdateScreen = require('./UpdateScreen')
 
 class MainScreen {
     constructor() {
@@ -20,7 +21,8 @@ class MainScreen {
 
     ReadyToShow() {
         this.window.once("ready-to-show", () => {
-            this.window.show();
+            this.window.hide();
+            global.updateScreen = new UpdateScreen();
         });
     }
 

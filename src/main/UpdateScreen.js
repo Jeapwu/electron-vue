@@ -5,14 +5,17 @@ class UpdateScreen {
     constructor() {
         const parentBounds = global.mainScreen.window.getBounds();
         this.window = new BrowserWindow({
-            width: 500, height: 300,
-            x: parentBounds.x + (parentBounds.width - 400) / 2,
-            y: parentBounds.y + (parentBounds.height - 300) / 2,
+            width: 450, height: 280,
+            x: parentBounds.x + (parentBounds.width - 450) / 2,
+            y: parentBounds.y + (parentBounds.height - 280) / 2,
             parent: global.mainScreen.window,
-            modal: true,
+            modal: true, frame: false,
+            minimizable: false, // 禁用最小化按钮
+            maximizable: false, // 禁用最大化按钮e
             resizable: false,
             movable: false,
             show: false,
+            autoHideMenuBar: true, // 隐藏菜单栏
             webPreferences: {
                 preload: `${__dirname}/preload.js`,
                 contextIsolation: true,

@@ -32,6 +32,10 @@ class UpdateModule {
     async Error(SetStatus) {
         await UpdateService.Error(SetStatus);
     }
+
+    async Close() {
+        await UpdateService.Close();
+    }
 }
 
 export default UpdateModule;

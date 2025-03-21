@@ -1,6 +1,8 @@
 const UserHandler = require('./UserHandler');
 const ControlHandler = require('./ControlHandler');
+const UpdateHandler = require('./UpdateHandler');
 const LogHelper = require('../../helper/LogHelper');
+
 
 class HandlerManager {
     constructor() {
@@ -33,6 +35,7 @@ class HandlerManager {
         const handlers = {
             UserHandler,
             ControlHandler,
+            UpdateHandler,
         };
 
         Object.entries(handlers).forEach(([name, HandlerClass]) => {
