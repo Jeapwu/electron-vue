@@ -21,26 +21,23 @@
                 <span class="row-text">Notion新版本现已上线！</span>
             </div>
 
-            <div class="content-move">
-                <!-- 第二行：右对齐，文本 -->
+            <!-- 初始内容：右移 -->
+            <div v-if="!isUpdating" class="content-move">
                 <div class="row right-align">
                     <span class="row-text">4.6.3 -> 4.7.0</span>
                 </div>
 
-                <!-- 第三行：右对齐，文本 -->
                 <div class="row right-align">
                     <span class="row-text">你想要现在安装吗？我们将为你重新打开窗口和选项卡。</span>
                 </div>
 
-                <!-- 第四行：右对齐，按钮（图标 + 文本） -->
                 <div class="row right-align">
-                    <button class="action-button" @click="toggleUpdate">
+                    <button class="action-button" @click="startUpdate">
                         <img src="@/assets/render/header/logo/logo.ico" alt="Update Icon" class="button-icon" />
                         <span>安装并重新启动</span>
                     </button>
                 </div>
 
-                <!-- 第五行：右对齐，按钮（图标 + 文本） -->
                 <div class="row right-align">
                     <button class="action-button" @click="toggleClose">
                         <img src="@/assets/render/header/logo/logo.ico" alt="Later Icon" class="button-icon" />
@@ -48,26 +45,56 @@
                     </button>
                 </div>
             </div>
+
+            <!-- 更新时的进度条：不右移 -->
+            <div v-else class="progress-container">
+                <span class="progress-text">{{ progress }}%</span>
+                <div class="progress-bar">
+                    <div class="progress" :style="{ width: progress + '%' }"></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useUpdateStore } from '@/render/stores/UpdateStore';
+
 export default {
     name: "UpdateScreen",
     setup() {
         const updateStore = useUpdateStore();
+        const isUpdating = ref(false); // 是否正在更新
+        const progress = ref(0); // 更新进度
 
         const toggleClose = async () => {
             await updateStore.Close();
         };
 
-        const toggleUpdate = async () => {
-            alert("开始更新...");
-        }
+        const startUpdate = () => {
+            isUpdating.value = true; // 开始更新
+            simulateUpdate(); // 模拟更新进度
+        };
 
-        return { toggleClose, toggleUpdate };
+        const resetScreen = () => {
+
+        };
+
+        // 模拟更新进度
+        const simulateUpdate = () => {
+            const interval = setInterval(() => {
+                if (progress.value < 100) {
+                    progress.value += 10; // 每次增加 10%
+                } else {
+                    clearInterval(interval); // 更新完成
+                    alert("更新完成，即将重新启动...");
+                    // 这里可以添加重新启动的逻辑
+                }
+            }, 500); // 每 500ms 更新一次
+        };
+
+        return { toggleClose, startUpdate, isUpdating, progress };
     },
 };
 </script>
@@ -84,7 +111,6 @@ export default {
 .menu-bar {
     display: flex;
     justify-content: space-between;
-    /* 两端对齐 */
     align-items: center;
     padding: 1px 0px;
     padding-left: 10px;
@@ -98,7 +124,6 @@ export default {
     display: flex;
     align-items: center;
     gap: 10px;
-    /* 图标和名称之间的间距 */
 }
 
 /* 应用图标样式 */
@@ -147,9 +172,10 @@ export default {
     background-color: white;
 }
 
-/* 右移区域样式 */
+/* 初始内容右移 */
 .content-move {
     padding-left: 40px;
+    /* 右移 40px */
 }
 
 /* 行样式 */
@@ -206,5 +232,38 @@ export default {
     height: 25px;
     width: auto;
     margin-right: 5px;
+}
+
+/* 进度条容器样式 */
+.progress-container {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-left: 0;
+    /* 不右移 */
+}
+
+/* 进度条样式 */
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 0px;
+    overflow: hidden;
+}
+
+/* 进度样式 */
+.progress {
+    height: 100%;
+    background-color: #45a049;
+    transition: width 0.5s ease;
+}
+
+/* 进度文本样式 */
+.progress-text {
+    font-size: 14px;
+    color: #333;
 }
 </style>
