@@ -1,22 +1,28 @@
 import { defineStore } from 'pinia';
-import ModuleManager from '../module/ModuleManager';
+import ServiceManager from '@/render/service/ServiceManager'
 
-const controlModule = ModuleManager.GetModule("ControlModule");
-
-export const useControlStore = defineStore('controlStore', {
+const useControlStore = defineStore('controlStore', {
     state: () => ({}),
 
     actions: {
         async Minimize() {
-            this.users = await controlModule.Minimize();
+            const controlService = ServiceManager.GetService('ControlService');
+            await controlService.Minimize();
         },
 
         async Maximize() {
-            this.users = await controlModule.Maximize();
+            const controlService = ServiceManager.GetService('ControlService');
+            await controlService.Maximize();
         },
 
         async Close() {
-            this.users = await controlModule.Close();
+            const controlService = ServiceManager.GetService('ControlService');
+            await controlService.Close();
         },
     }
 });
+
+const store = useControlStore()
+const service = ServiceManager.GetService('ControlService');
+service.Init(store)
+export default store;

@@ -1,14 +1,23 @@
+
 class ControlService {
-    static async Minimize() {
-        return await window.Api.invoke('Control:Minimize');
+    constructor() {
+        this.store = null;
     }
 
-    static async Maximize() {
-        return await window.Api.invoke('Control:Maximize');
+    async Init(store) {
+        this.store = store;
     }
 
-    static async Close() {
-        return await window.Api.invoke('Control:Close');
+    async Minimize() {
+        await window.Api.invoke('Control:Minimize');
+    }
+
+    async Maximize() {
+        await window.Api.invoke('Control:Maximize');
+    }
+
+    async Close() {
+        await window.Api.invoke('Control:Close');
     }
 }
 

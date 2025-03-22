@@ -67,7 +67,6 @@ import updateStore from '@/render/stores/UpdateStore';
 export default {
     name: "UpdateScreen",
     setup() {
-        //const updateStore = useUpdateStore();
         const isUpdating = ref(false); // 是否正在更新
         const { status, progress } = storeToRefs(updateStore);
 

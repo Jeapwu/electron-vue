@@ -18,12 +18,10 @@
 </template>
 
 <script>
-import { useControlStore } from '@/render/stores/ControlStore';
+import controlStore from '@/render/stores/ControlStore';
 export default {
     name: "ControlScreen",
     setup() {
-        const controlStore = useControlStore();
-
         const toggleMinimize = async () => {
             await controlStore.Minimize();
         };

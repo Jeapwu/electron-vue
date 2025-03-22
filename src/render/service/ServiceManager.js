@@ -1,4 +1,6 @@
 import UpdateService from './UpdateService';
+import ControlService from './ControlService';
+import UserService from './UserService';
 
 class ServiceManager {
     constructor() {
@@ -30,6 +32,8 @@ class ServiceManager {
     RegisterServices() {
         const services = {
             UpdateService,
+            ControlService,
+            UserService,
         };
 
         Object.entries(services).forEach(([name, ServiceClass]) => {
