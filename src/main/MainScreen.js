@@ -5,6 +5,7 @@ class MainScreen {
     constructor() {
         this.window = new BrowserWindow({
             width: 900, height: 507, frame: false, show: false,
+            resizable: false, maximizable: false,
             webPreferences: {
                 contextIsolation: true, // 隔离上下文，避免主进程和渲染进程直接共享对象
                 nodeIntegration: false, // 禁用 Node.js 集成

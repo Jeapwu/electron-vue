@@ -1,5 +1,13 @@
 <template>
     <div class="auth-container">
+        <div class="window-controls">
+            <button class="control-btn minimize" @click="handleMinimize">
+                <i class="icon-minimize"></i>
+            </button>
+            <button class="control-btn close" @click="handleClose">
+                <i class="icon-close"></i>
+            </button>
+        </div>
         <div class="auth-box">
             <div class="auth-header">
                 <!-- <div class="logo">
@@ -129,6 +137,16 @@ const handleRegister = () => {
     // 处理注册逻辑
     console.log('注册表单：', registerForm)
 }
+
+const handleMinimize = () => {
+    // 处理最小化逻辑
+    console.log('最小化窗口')
+}
+
+const handleClose = () => {
+    // 处理关闭逻辑
+    console.log('关闭窗口')
+}
 </script>
 
 <style scoped>
@@ -139,8 +157,9 @@ const handleRegister = () => {
     justify-content: center;
     background: url('@/assets/render/login/login.png') no-repeat;
     background-size: cover;
-    background-position: center; /* 确保背景图居中 */
+    background-position: center;
     position: relative;
+    -webkit-app-region: drag;
 }
 
 .auth-box {
@@ -156,6 +175,7 @@ const handleRegister = () => {
     position: relative;
     z-index: 1;
     margin-left: 500px;
+    -webkit-app-region: no-drag;
 }
 
 .auth-header {
@@ -400,5 +420,70 @@ const handleRegister = () => {
         width: 35px;
         height: 35px;
     }
+}
+
+
+.window-controls {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    z-index: 1000;
+    -webkit-app-region: no-drag;
+}
+
+.control-btn {
+    width: 46px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.control-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-btn.close:hover {
+    background-color: #e81123;
+}
+
+.control-btn i {
+    width: 12px;
+    height: 12px;
+    position: relative;
+}
+
+.icon-minimize::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.icon-close::before,
+.icon-close::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.icon-close::before {
+    transform: rotate(45deg);
+}
+
+.icon-close::after {
+    transform: rotate(-45deg);
 }
 </style>
