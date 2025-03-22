@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
   {
-    path: '/', name: 'Main', component: () => import('./screen/MainScreen.vue'),
+    path: '/', name: 'Login', component: () => import('./screen/LoginScreen.vue'),
     children: [
       { path: '', redirect: '/home' },
       { path: 'home', name: 'Home', component: () => import('./screen/component/main/Home.vue') },
@@ -12,6 +12,7 @@ const routes = [
     ],
   },
   { path: '/update', name: 'Update', component: () => import('./screen/component/general/Update.vue') },
+  { path: '/main', name: 'Main', component: () => import('./screen/MainScreen.vue') },
 ];
 
 const router = createRouter({
