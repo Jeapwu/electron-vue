@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import ServiceManager from '@/render/service/ServiceManager'
 
-export const useUpdateStore = defineStore('updateStore', {
+const useUpdateStore = defineStore('updateStore', {
     state: () => ({
         status: null,
         progress: 0,
@@ -34,3 +34,8 @@ export const useUpdateStore = defineStore('updateStore', {
         }
     }
 });
+
+const store = useUpdateStore()
+const service = ServiceManager.GetService('UpdateService');
+service.Init(store)
+export default store;

@@ -41,12 +41,15 @@ class UpdateModule {
 
     StartDownloadUpdate() {
         const path = autoUpdater.downloadUpdate();
-        //this.updateScreen.SendMessage("UpdateAvailable", { msg: path });
+        this.updateScreen.SendMessage("UpdateAvailable", { msg: path });
     }
 
     UpdateNotAvailable() {
         autoUpdater.on("update-not-available", (info) => {
             LogHelper.debug(info);
+            if (global.mainScreen) {
+                global.mainScreen.window.show();
+            }
             this.updateScreen.SendMessage("UpdateNotAvailable", { msg: `No update available. Current version ${app.getVersion()}` });
         });
     }
@@ -56,10 +59,10 @@ class UpdateModule {
             LogHelper.debug(info);
             this.updateScreen.SendMessage("UpdateDownloaded", { msg: `Update downloaded. Current version ${app.getVersion()}` });
 
-            // setTimeout(() => {
-            //     this.updateScreen.SendMessage("UpdateDownloaded", { msg: "The application will restart to apply the update." });
-            //     autoUpdater.quitAndInstall();
-            // }, 1000);
+            setTimeout(() => {
+                this.updateScreen.SendMessage("UpdateDownloaded", { msg: "The application will restart to apply the update." });
+                autoUpdater.quitAndInstall();
+            }, 1000);
         });
     }
 

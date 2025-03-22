@@ -1,4 +1,4 @@
-import UpdateService from "./UpdateService";
+import UpdateService from './UpdateService';
 
 class ServiceManager {
     constructor() {
@@ -43,6 +43,6 @@ class ServiceManager {
     }
 }
 
-const manager = new ServiceManager(); 
+const manager = new ServiceManager();
 Object.freeze(manager);
 export default manager;

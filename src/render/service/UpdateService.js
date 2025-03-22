@@ -1,7 +1,7 @@
-import { useUpdateStore } from '@/render/stores/UpdateStore';
 
 class UpdateService {
     constructor() {
+        this.store = null;
         this.ReadyToShow();
         this.UpdateAvailable();
         this.UpdateNotAvailable();
@@ -9,6 +9,10 @@ class UpdateService {
         this.CheckingForUpdate();
         this.DownloadProgress();
         this.Error();
+    }
+
+    async Init(store) {
+        this.store = store;
     }
 
     async ReadyToShow() {
@@ -19,8 +23,7 @@ class UpdateService {
 
     async UpdateAvailable() {
         await window.Api.recv('UpdateAvailable', (data) => {
-            const updateStore = useUpdateStore();
-            updateStore.SetStatus(data);
+            this.store.SetStatus(data);
         });
     }
 
@@ -44,8 +47,7 @@ class UpdateService {
 
     async DownloadProgress() {
         await window.Api.recv('DownloadProgress', (data) => {
-            const updateStore = useUpdateStore();
-            updateStore.SetProgress(data);
+            this.store.SetProgress(data);
         });
     }
 
