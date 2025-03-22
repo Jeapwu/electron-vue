@@ -18,34 +18,48 @@ class UpdateModule {
     }
 
     CheckForUpdates() {
+        autoUpdater.forceDevUpdateConfig = true;
+        autoUpdater.autoDownload = false;
         autoUpdater.checkForUpdates();
     }
 
     UpdateAvailable() {
         autoUpdater.on("update-available", (info) => {
             LogHelper.debug(info);
-            this.updateScreen.SendMessage("UpdateAvailable", `Update available. Current version ${app.getVersion()}`);
-            const path = autoUpdater.downloadUpdate();
-            this.updateScreen.SendMessage("UpdateAvailable", path);
+            if (global.mainScreen) {
+                if (!this.updateScreen) {
+                    this.updateScreen = new UpdateScreen();
+                }
+                const meta = {
+                    localVersion: app.getVersion(),
+                    remoteVersion: info.version,
+                };
+                this.updateScreen.SendMessage("UpdateAvailable", meta);
+            }
         });
+    }
+
+    StartDownloadUpdate() {
+        const path = autoUpdater.downloadUpdate();
+        //this.updateScreen.SendMessage("UpdateAvailable", { msg: path });
     }
 
     UpdateNotAvailable() {
         autoUpdater.on("update-not-available", (info) => {
             LogHelper.debug(info);
-            this.updateScreen.SendMessage("UpdateNotAvailable", `No update available. Current version ${app.getVersion()}`);
+            this.updateScreen.SendMessage("UpdateNotAvailable", { msg: `No update available. Current version ${app.getVersion()}` });
         });
     }
 
     UpdateDownloaded() {
         autoUpdater.on("update-downloaded", (info) => {
             LogHelper.debug(info);
-            this.updateScreen.SendMessage("UpdateDownloaded", `Update downloaded. Current version ${app.getVersion()}`);
+            this.updateScreen.SendMessage("UpdateDownloaded", { msg: `Update downloaded. Current version ${app.getVersion()}` });
 
-            setTimeout(() => {
-                this.updateScreen.SendMessage("UpdateDownloaded", "The application will restart to apply the update.");
-                autoUpdater.quitAndInstall();
-            }, 1000);
+            // setTimeout(() => {
+            //     this.updateScreen.SendMessage("UpdateDownloaded", { msg: "The application will restart to apply the update." });
+            //     autoUpdater.quitAndInstall();
+            // }, 1000);
         });
     }
 
@@ -53,28 +67,27 @@ class UpdateModule {
         autoUpdater.on("checking-for-update", () => {
             LogHelper.debug("Checking for updates...");
             this.updateScreen = new UpdateScreen();
-            this.updateScreen.SendMessage("CheckingForUpdate", "Checking for updates...");
+            this.updateScreen.SendMessage("CheckingForUpdate", { msg: "Checking for updates..." });
         });
     }
 
     DownloadProgress() {
         autoUpdater.on("download-progress", (progressInfo) => {
             LogHelper.debug("Download progress:", progressInfo);
-            const message = `Download speed: ${progressInfo.bytesPerSecond} - 
-                Downloaded ${progressInfo.percent}% (${progressInfo.transferred}/${progressInfo.total})`;
+            const message = progressInfo.percent;
             this.updateScreen.SendMessage("DownloadProgress", message);
         });
     }
 
     Error() {
         autoUpdater.on("error", (info) => {
-            this.updateScreen.SendMessage("Error", info);
+            this.updateScreen.SendMessage("Error", { msg: info });
         });
     }
 
     Close() {
-        if (global.updateScreen) {
-            global.updateScreen.window.close();
+        if (this.updateScreen) {
+            this.updateScreen.window.close();
         }
 
         if (global.mainScreen) {
@@ -83,9 +96,15 @@ class UpdateModule {
     }
 
     ResetScreen(size) {
-        if (global.updateScreen) {
-            global.updateScreen.window.setResizable(true);
-            global.updateScreen.window.setSize(size.width, size.height);
+        if (this.updateScreen) {
+            this.updateScreen.window.setResizable(true);
+            this.updateScreen.window.setSize(size.width, size.height);
+        }
+    }
+
+    ShowPage() {
+        if (this.updateScreen) {
+            this.updateScreen.window.show();
         }
     }
 }

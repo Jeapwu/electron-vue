@@ -1,7 +1,7 @@
 import UpdateService from "../service/UpdateService";
 
 class UpdateModule {
-    constructor() { }
+    constructor() {}
 
     async ReadyToShow(SetStatus) {
         await UpdateService.ReadyToShow(SetStatus);
@@ -38,7 +38,6 @@ class UpdateModule {
     }
 
     async ResetScreen(size) {
-        console.log(size);
         await UpdateService.ResetScreen(size);
     }
 }

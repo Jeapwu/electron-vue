@@ -1,34 +1,36 @@
 import { defineStore } from 'pinia';
-import ModuleManager from '../module/ModuleManager';
-
-const updateModule = ModuleManager.GetModule("UpdateModule");
+import ServiceManager from '@/render/service/ServiceManager'
 
 export const useUpdateStore = defineStore('updateStore', {
     state: () => ({
-        status: '',
+        status: null,
+        progress: 0,
     }),
 
     actions: {
-        async AutoBind() {
-            updateModule.ReadyToShow(this.SetStatus);
-            updateModule.UpdateAvailable(this.SetStatus);
-            updateModule.UpdateNotAvailable(this.SetStatus);
-            updateModule.UpdateDownloaded(this.SetStatus);
-            updateModule.CheckingForUpdate(this.SetStatus);
-            updateModule.DownloadProgress(this.SetStatus);
-            updateModule.Error(this.SetStatus);
-        },
-
         async SetStatus(status) {
             this.status = status;
+            const updateService = ServiceManager.GetService('UpdateService');
+            updateService.ShowPage();
         },
 
         async Close() {
-            await updateModule.Close();
+            const updateService = ServiceManager.GetService('UpdateService');
+            updateService.Close();
         },
 
         async ResetScreen(size) {
-            await updateModule.ResetScreen(size);
+            const updateService = ServiceManager.GetService('UpdateService');
+            updateService.ResetScreen(size);
+        },
+
+        async SetProgress(progress) {
+            this.progress =  parseInt(progress);
+        },
+
+        async ToggleUpdate() {
+            const updateService = ServiceManager.GetService('UpdateService');
+            updateService.ToggleUpdate();
         }
     }
 });

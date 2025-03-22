@@ -1,11 +1,10 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
-const UpdateScreen = require('./UpdateScreen')
 
 class MainScreen {
     constructor() {
         this.window = new BrowserWindow({
-            width: 880, height: 600, frame: false,
+            width: 880, height: 600, frame: false, show: false,
             webPreferences: {
                 contextIsolation: true, // 隔离上下文，避免主进程和渲染进程直接共享对象
                 nodeIntegration: false, // 禁用 Node.js 集成
@@ -22,7 +21,7 @@ class MainScreen {
     ReadyToShow() {
         this.window.once("ready-to-show", () => {
             this.window.hide();
-            global.updateScreen = new UpdateScreen();
+            //this.SendMessage("ReadyToShow", { msg: `Checking for updates. Current version ${app.getVersion()}` });
         });
     }
 

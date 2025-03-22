@@ -12,14 +12,14 @@ class UpdateScreen {
             modal: true, frame: false,
             minimizable: false, // 禁用最小化按钮
             maximizable: false, // 禁用最大化按钮e
-            resizable: false,
-            movable: false,
-            show: false,
+            resizable: false, movable: false, show: false,
             autoHideMenuBar: true, // 隐藏菜单栏
             webPreferences: {
-                preload: `${__dirname}/preload.js`,
-                contextIsolation: true,
-                nodeIntegration: false,
+                contextIsolation: true, // 隔离上下文，避免主进程和渲染进程直接共享对象
+                nodeIntegration: false, // 禁用 Node.js 集成
+                enableRemoteModule: false, // 禁用远程模块（如果不需要）
+                sandbox: true, // 启用沙盒模式
+                preload: path.join(__dirname, "./preload.js"),
             },
         });
         this.ReadyToShow();
@@ -29,8 +29,7 @@ class UpdateScreen {
 
     ReadyToShow() {
         this.window.once("ready-to-show", () => {
-            this.window.show();
-            this.SendMessage("ReadyToShow", `Checking for updates. Current version ${app.getVersion()}`);
+            this.window.hide();
         });
     }
 
@@ -50,8 +49,12 @@ class UpdateScreen {
     }
 
     SendMessage(channel, message) {
-        console.log(channel, message);
-        this.window.webContents.send(channel, message);
+        console.log('send msg:', channel, message);
+        if (this.window && this.window.webContents) {
+            this.window.webContents.send(channel, message);
+        } else {
+            console.error('Window or webContents is not initialized.');
+        }
     }
 }
 

@@ -1,39 +1,74 @@
+import { useUpdateStore } from '@/render/stores/UpdateStore';
 
 class UpdateService {
-    static async ReadyToShow(callback) {
-        await window.Api.recv('ReadyToShow', callback);
+    constructor() {
+        this.ReadyToShow();
+        this.UpdateAvailable();
+        this.UpdateNotAvailable();
+        this.UpdateDownloaded();
+        this.CheckingForUpdate();
+        this.DownloadProgress();
+        this.Error();
     }
 
-    static async UpdateAvailable(callback) {
-        await window.Api.recv('UpdateAvailable', callback);
+    async ReadyToShow() {
+        await window.Api.recv('ReadyToShow', (data) => {
+            console.log(data);
+        });
     }
 
-    static async UpdateNotAvailable(callback) {
-        await window.Api.recv('UpdateNotAvailable', callback);
+    async UpdateAvailable() {
+        await window.Api.recv('UpdateAvailable', (data) => {
+            const updateStore = useUpdateStore();
+            updateStore.SetStatus(data);
+        });
     }
 
-    static async UpdateDownloaded(callback) {
-        await window.Api.recv('UpdateDownloaded', callback);
+    async UpdateNotAvailable() {
+        await window.Api.recv('UpdateNotAvailable', (data) => {
+            console.log(data);
+        });
     }
 
-    static async CheckingForUpdate(callback) {
-        await window.Api.recv('CheckingForUpdate', callback);
+    async UpdateDownloaded() {
+        await window.Api.recv('UpdateDownloaded', (data) => {
+            console.log(data);
+        });
     }
 
-    static async DownloadProgress(callback) {
-        await window.Api.recv('DownloadProgress', callback);
+    async CheckingForUpdate() {
+        await window.Api.recv('CheckingForUpdate', (data) => {
+            console.log(data);
+        });
     }
 
-    static async Error(callback) {
-        await window.Api.recv('Error', callback);
+    async DownloadProgress() {
+        await window.Api.recv('DownloadProgress', (data) => {
+            const updateStore = useUpdateStore();
+            updateStore.SetProgress(data);
+        });
     }
 
-    static async Close() {
+    async Error() {
+        await window.Api.recv('Error', (data) => {
+            console.log(data);
+        });
+    }
+
+    async Close() {
         await window.Api.invoke('Update:Close', null);
     }
 
-    static async ResetScreen(size) {
+    async ResetScreen(size) {
         await window.Api.invoke('Update:ResetScreen', size);
+    }
+
+    async ShowPage() {
+        await window.Api.invoke('Update:ShowPage', null);
+    }
+
+    async ToggleUpdate() {
+        await window.Api.invoke('Update:ToggleUpdate', null);
     }
 }
 

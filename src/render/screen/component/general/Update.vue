@@ -23,8 +23,10 @@
 
             <!-- 初始内容：右移 -->
             <div v-if="!isUpdating" class="content-move">
-                <div class="row right-align">
-                    <span class="row-text">4.6.3 -> 4.7.0</span>
+                <div v-if="status">
+                    <div class="row right-align">
+                        <span class="row-text">{{ status.localVersion }} -> {{ status.remoteVersion }}</span>
+                    </div>
                 </div>
 
                 <div class="row right-align">
@@ -32,7 +34,7 @@
                 </div>
 
                 <div class="row right-align">
-                    <button class="action-button" @click="startUpdate">
+                    <button class="action-button" @click="toggleUpdate">
                         <img src="@/assets/render/header/logo/logo.ico" alt="Update Icon" class="button-icon" />
                         <span>安装并重新启动</span>
                     </button>
@@ -48,7 +50,7 @@
 
             <!-- 更新时的进度条：不右移 -->
             <div v-else class="progress-container">
-                <span class="progress-text">{{ progress }}%</span>
+                <span class="progress-text">Downloaded: {{ progress }}%</span>
                 <div class="progress-bar">
                     <div class="progress" :style="{ width: progress + '%' }"></div>
                 </div>
@@ -59,6 +61,7 @@
 
 <script>
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useUpdateStore } from '@/render/stores/UpdateStore';
 
 export default {
@@ -66,16 +69,17 @@ export default {
     setup() {
         const updateStore = useUpdateStore();
         const isUpdating = ref(false); // 是否正在更新
-        const progress = ref(0); // 更新进度
+        const { status, progress } = storeToRefs(updateStore);
+
 
         const toggleClose = async () => {
             await updateStore.Close();
         };
 
-        const startUpdate = () => {
+        const toggleUpdate = () => {
             resetScreen();
             isUpdating.value = true; // 开始更新
-            simulateUpdate(); // 模拟更新进度
+            updateStore.ToggleUpdate();
         };
 
         const resetScreen = () => {
@@ -86,20 +90,7 @@ export default {
             updateStore.ResetScreen(size);
         };
 
-        // 模拟更新进度
-        const simulateUpdate = () => {
-            const interval = setInterval(() => {
-                if (progress.value < 100) {
-                    progress.value += 10; // 每次增加 10%
-                } else {
-                    clearInterval(interval); // 更新完成
-                    //alert("更新完成，即将重新启动...");
-                    // 这里可以添加重新启动的逻辑
-                }
-            }, 500); // 每 500ms 更新一次
-        };
-
-        return { toggleClose, startUpdate, isUpdating, progress };
+        return { toggleClose, toggleUpdate, isUpdating, progress, status };
     },
 };
 </script>
