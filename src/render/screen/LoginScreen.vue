@@ -8,135 +8,57 @@
                 <i class="icon-close"></i>
             </button>
         </div>
-        <div class="auth-box">
-            <div class="auth-header">
-                <!-- <div class="logo">
-                    <img src="@/assets/render/header/logo/logo.ico" alt="Logo">
-                </div> -->
-                <div class="tabs">
-                    <button :class="['tab-btn', { active: isLogin }]" @click="isLogin = true">
-                        登录
-                    </button>
-                    <button :class="['tab-btn', { active: !isLogin }]" @click="isLogin = false">
-                        注册
-                    </button>
-                </div>
+        <div class="left-section">
+        </div>
+        <div class="login-container">
+            <div class="login-header">
+                <h2>手机验证登录</h2>
             </div>
-
-            <transition name="fade" mode="out-in">
-                <form v-if="isLogin" @submit.prevent="handleLogin" class="auth-form">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <i class="icon-user"></i>
-                            <input type="text" v-model="loginForm.username" placeholder="用户名/手机号" required>
-                        </div>
+            <form @submit.prevent="handleLogin">
+                <div class="form-group">
+                    <div class="input-group">
+                        <i class="icon-phone"></i>
+                        <input type="tel" v-model="form.phone" placeholder="请输入手机号" required>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <i class="icon-lock"></i>
-                            <input :type="showPassword ? 'text' : 'password'" v-model="loginForm.password"
-                                placeholder="密码" required>
-                            <i :class="['icon-eye', { active: showPassword }]"
-                                @click="showPassword = !showPassword"></i>
-                        </div>
-                    </div>
-                    <div class="form-options">
-                        <label class="remember-me">
-                            <input type="checkbox" v-model="loginForm.remember">
-                            <span>记住我</span>
-                        </label>
-                        <a href="#" class="forgot-password">忘记密码？</a>
-                    </div>
-                    <button type="submit" class="submit-btn">
-                        <span>登录</span>
-                        <i class="icon-arrow-right"></i>
-                    </button>
-                </form>
-
-                <form v-else @submit.prevent="handleRegister" class="auth-form">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <i class="icon-user"></i>
-                            <input type="text" v-model="registerForm.username" placeholder="用户名" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <i class="icon-phone"></i>
-                            <input type="tel" v-model="registerForm.phone" placeholder="手机号" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <i class="icon-lock"></i>
-                            <input :type="showPassword ? 'text' : 'password'" v-model="registerForm.password"
-                                placeholder="密码" required>
-                            <i :class="['icon-eye', { active: showPassword }]"
-                                @click="showPassword = !showPassword"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <i class="icon-lock"></i>
-                            <input :type="showPassword ? 'text' : 'password'" v-model="registerForm.confirmPassword"
-                                placeholder="确认密码" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="submit-btn">
-                        <span>注册</span>
-                        <i class="icon-arrow-right"></i>
-                    </button>
-                </form>
-            </transition>
-
-            <div class="social-login">
-                <div class="divider">
-                    <span>其他登录方式</span>
                 </div>
-                <div class="social-icons">
-                    <a href="#" class="social-icon wechat">
-                        <i class="icon-wechat"></i>
-                    </a>
-                    <a href="#" class="social-icon qq">
-                        <i class="icon-qq"></i>
-                    </a>
-                    <a href="#" class="social-icon weibo">
-                        <i class="icon-weibo"></i>
-                    </a>
+                <div class="form-group">
+                    <div class="input-group">
+                        <i class="icon-lock"></i>
+                        <input type="text" v-model="form.code" placeholder="请输入验证码" required>
+                        <a href="#" class="get-code" @click.prevent="getCode">获取验证码</a>
+                    </div>
                 </div>
-            </div>
+                <button type="submit" class="login-button">
+                    <span>点击登录</span>
+                    <i class="icon-arrow-right"></i>
+                </button>
+                <div class="other-login">
+                    <p>其他登录方式</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon wechat">
+                            <img src="./assets/icon-wechat.png" alt="微信">
+                        </a>
+                        <a href="#" class="social-icon qq">
+                            <img src="./assets/icon-qq.png" alt="QQ">
+                        </a>
+                    </div>
+                </div>
+            </form>
+            <a href="#" class="help-link">
+                <img src="./assets/icon-help.png" alt="帮助">
+                遇到问题，点这里联系客服
+            </a>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
-const isLogin = ref(true)
-const showPassword = ref(false)
-
-const loginForm = reactive({
-    username: '',
-    password: '',
-    remember: false
-})
-
-const registerForm = reactive({
-    username: '',
+const form = reactive({
     phone: '',
-    password: '',
-    confirmPassword: ''
+    code: ''
 })
-
-const handleLogin = () => {
-    // 处理登录逻辑
-    console.log('登录表单：', loginForm)
-}
-
-const handleRegister = () => {
-    // 处理注册逻辑
-    console.log('注册表单：', registerForm)
-}
 
 const handleMinimize = () => {
     // 处理最小化逻辑
@@ -147,281 +69,74 @@ const handleClose = () => {
     // 处理关闭逻辑
     console.log('关闭窗口')
 }
+
+const handleLogin = () => {
+    // 处理登录逻辑
+    console.log('登录表单：', form)
+}
+
+const getCode = () => {
+    // 处理获取验证码逻辑
+    console.log('获取验证码')
+}
+
+onMounted(() => {
+    // 禁用缩放
+    document.body.style.zoom = '1'
+    document.body.style.transform = 'scale(1)'
+    document.body.style.transformOrigin = '0 0'
+
+    // 禁止双击最大化
+    document.addEventListener('dblclick', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+    }, true)
+
+    // 禁止双击选择文本
+    document.addEventListener('selectstart', (e) => {
+        e.preventDefault()
+    }, true)
+})
 </script>
 
 <style scoped>
+/* 添加禁止缩放的样式 */
+html,
+body {
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 .auth-container {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('@/assets/render/login/login.png') no-repeat;
+    background: url('@/assets/render/login/login.png') no-repeat center center;
     background-size: cover;
-    background-position: center;
     position: relative;
+    padding: 20px;
     -webkit-app-region: drag;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: auto;
 }
 
-.auth-box {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    padding: 10px;
-    width: 100%;
-    height: 400px;
-    max-width: 250px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 1;
-    margin-left: 500px;
-    -webkit-app-region: no-drag;
-}
-
-.auth-header {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.logo {
-    margin-bottom: 10px;
-}
-
-.logo img {
-    height: 20px;
-}
-
-.tabs {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 10px;
-}
-
-.tab-btn {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 10px 20px;
-    position: relative;
-    transition: color 0.3s ease;
-}
-
-.tab-btn.active {
-    color: #fff;
-}
-
-.tab-btn.active::after {
+.auth-container::before {
     content: '';
     position: absolute;
-    bottom: -5px;
+    top: 0;
     left: 0;
-    width: 100%;
-    height: 2px;
-    background: #007bff;
-    border-radius: 2px;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: none;
 }
-
-.auth-form {
-    margin-bottom: 30px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.input-group {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 12px 15px;
-    transition: all 0.3s ease;
-}
-
-.input-group:focus-within {
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-}
-
-.input-group i {
-    color: rgba(255, 255, 255, 0.5);
-    margin-right: 10px;
-    font-size: 18px;
-}
-
-.input-group input {
-    flex: 1;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    outline: none;
-}
-
-.input-group input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.form-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.remember-me {
-    display: flex;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-}
-
-.remember-me input {
-    margin-right: 8px;
-}
-
-.forgot-password {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s ease;
-}
-
-.forgot-password:hover {
-    color: #0056b3;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(45deg, #007bff, #00bfff);
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-}
-
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-}
-
-.submit-btn i {
-    transition: transform 0.3s ease;
-}
-
-.submit-btn:hover i {
-    transform: translateX(5px);
-}
-
-.social-login {
-    margin-top: 30px;
-}
-
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.divider span {
-    padding: 0 15px;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.social-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.social-icon:hover {
-    transform: translateY(-3px);
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.social-icon.wechat:hover {
-    background: #07c160;
-}
-
-.social-icon.qq:hover {
-    background: #12b7f5;
-}
-
-.social-icon.weibo:hover {
-    background: #e6162d;
-}
-
-/* 动画效果 */
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-
-/* 响应式设计 */
-@media (max-width: 480px) {
-    .auth-box {
-        padding: 30px 20px;
-    }
-
-    .tabs {
-        gap: 10px;
-    }
-
-    .tab-btn {
-        font-size: 16px;
-        padding: 8px 16px;
-    }
-
-    .social-icons {
-        gap: 15px;
-    }
-
-    .social-icon {
-        width: 35px;
-        height: 35px;
-    }
-}
-
 
 .window-controls {
     position: fixed;
@@ -485,5 +200,251 @@ const handleClose = () => {
 
 .icon-close::after {
     transform: rotate(-45deg);
+}
+
+.left-section {
+    flex: 1;
+    padding: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+}
+
+.game-title {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 40px;
+}
+
+.game-title h1 {
+    color: #fff;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.game-title h1 span {
+    color: #FFD700;
+}
+
+.game-title .subtitle {
+    color: #FFD700;
+    font-size: 22px;
+    padding: 10px 0;
+    border-top: 2px solid rgba(255, 215, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+    display: inline-block;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    text-align: center;
+}
+
+.feature-item img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    color: #FFD700;
+    font-size: 14px;
+}
+
+.login-container {
+    width: 300px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 8px;
+    margin-right: 35px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 10px 12px;
+}
+
+.input-group input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.input-group i {
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.get-code {
+    color: #FFD700;
+    text-decoration: none;
+    font-size: 11px;
+    float: right;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background: #FFD700;
+    border: none;
+    border-radius: 4px;
+    color: #000;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.login-button:hover {
+    background: #F0C800;
+}
+
+.other-login {
+    margin-top: 30px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.other-login p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    margin-bottom: 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.other-login p::before,
+.other-login p::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    max-width: 80px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+.help-link {
+    color: #FFD700;
+    text-decoration: none;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.help-link img {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+}
+
+.character-bg {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    height: 80%;
+    background: url('./assets/game-character.png') no-repeat bottom left;
+    background-size: contain;
+    opacity: 0.8;
+    z-index: 1;
+}
+
+@media (max-width: 480px) {
+    .auth-box {
+        padding: 30px 20px;
+    }
+
+    .tabs {
+        gap: 10px;
+    }
+
+    .tab-btn {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+
+    .social-icons {
+        gap: 15px;
+    }
+
+    .social-icon {
+        width: 35px;
+        height: 35px;
+    }
 }
 </style>
