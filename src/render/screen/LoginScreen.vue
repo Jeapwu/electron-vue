@@ -11,9 +11,9 @@
         <div class="left-section"></div>
         <div class="login-container">
             <!-- 引用登录组件 -->
-            <PhoneLogin v-if="loginType === 'phone'" @login="handleLogin" @showWechatLogin="showWechatLogin" />
-            <WechatLogin v-if="loginType === 'wechat'" @back="loginType = 'phone'" />
-            <AccountLogin v-if="loginType === 'account'" @back="loginType = 'account'" />
+            <PhoneLogin v-if="loginType === 'phone'" />
+            <WechatLogin v-if="loginType === 'wechat'" />
+            <AccountLogin v-if="loginType === 'account'" />
 
             <div class="agreement-text">
                 登录/注册即代表同意
