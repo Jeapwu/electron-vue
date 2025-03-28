@@ -8,38 +8,21 @@
                 <i class="icon-close"></i>
             </button>
         </div>
-        <div class="left-section">
-        </div>
+        <div class="left-section"></div>
         <div class="login-container">
-            <div class="login-header">
-                <h2>手机验证登录</h2>
+            <!-- 引用登录组件 -->
+            <PhoneLogin v-if="loginType === 'phone'" @login="handleLogin" @showWechatLogin="showWechatLogin" />
+            <AccountLogin v-if="loginType === 'wechat'" @back="loginType = 'phone'" />
+
+            <div class="agreement-text">
+                登录/注册即代表同意
+                <a href="#" class="agreement-link" @click.prevent="showAgreement">《用户协议》</a>
             </div>
-            <form @submit.prevent="handleLogin">
-                <div class="form-group">
-                    <div class="input-group">
-                        <i class="icon-phone"></i>
-                        <input type="tel" v-model="form.phone" placeholder="请输入手机号" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <i class="icon-lock"></i>
-                        <input type="text" v-model="form.code" placeholder="请输入验证码" required>
-                        <a href="#" class="get-code" @click.prevent="getCode">获取验证码</a>
-                    </div>
-                </div>
-                <button type="submit" class="login-button">
-                    <span>点击登录</span>
-                    <i class="icon-arrow-right"></i>
-                </button>
-                <div class="agreement-text">
-                    登录/注册即代表同意
-                    <a href="#" class="agreement-link" @click.prevent="showAgreement">《用户协议》</a>
-                </div>
-                <div class="other-login">
-                    <p>其他登录方式</p>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon wechat">
+            <div class="other-login">
+                <p>其他登录方式</p>
+                <div class="social-icons">
+                    <div class="social-item">
+                        <a href="#" class="social-icon wechat" @click="switchLogin">
                             <svg width="1em" height="1em" viewBox="0 0 25 20" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M17.2 5.967C16.464 2.552 12.772 0 8.567 0 3.864.017.011 3.195.011 7.23c0 2.327 1.285 4.246 3.418 5.732l-.861 2.549 2.995-1.484c1.073.21 1.934.42 2.993.42.275 0 .537-.013.798-.037a6.48 6.48 0 0 1-.261-1.784c.012-3.7 3.219-6.707 7.285-6.707.273-.002.548.024.822.048Zm-4.354-1.285c0 .63-.423 1.064-1.072 1.064-.637 0-1.285-.42-1.285-1.064 0-.645.648-1.064 1.285-1.064.65 0 1.072.42 1.072 1.064ZM5.785 5.746c-.635 0-1.284-.42-1.284-1.064 0-.645.65-1.064 1.284-1.064.636 0 1.073.42 1.073 1.064 0 .63-.423 1.064-1.073 1.064Zm11.13.629c-4.067 0-7.274 2.772-7.274 6.163 0 3.403 3.207 6.164 7.273 6.164.85 0 1.71-.21 2.57-.42l2.346 1.274-.648-2.117c1.722-1.299 3.007-2.996 3.007-4.901 0-3.391-3.418-6.163-7.275-6.163Zm-3.22 4.244c0-.42.439-.855.862-.855.65 0 1.073.422 1.073.855 0 .435-.423.854-1.073.854-.423 0-.861-.42-.861-.854Zm4.717 0c0-.42.423-.855.85-.855.647 0 1.072.422 1.072.855 0 .435-.425.854-1.073.854-.424 0-.85-.42-.85-.854Z"
@@ -47,6 +30,9 @@
                                 </path>
                             </svg>
                         </a>
+                        <span class="social-text">微信</span>
+                    </div>
+                    <div class="social-item">
                         <a href="#" class="social-icon qq">
                             <svg width="1em" height="1em" viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -55,24 +41,33 @@
                                 </path>
                             </svg>
                         </a>
+                        <span class="social-text">QQ</span>
                     </div>
                 </div>
-            </form>
-            <a href="#" class="help-link">
-                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M7.82 12.623A2.006 2.006 0 0 0 9.72 11.24a.113.113 0 0 0-.06-.14.115.115 0 0 0-.146.047c-.003.005-.308.498-1.496.658-.178.024-.351.036-.515.036-.833 0-1.203-.314-1.207-.317a.114.114 0 0 0-.172.146 2.01 2.01 0 0 0 1.697.953Zm6.388-7.363-.03.002C13.482 2.248 10.822 0 7.633 0c-3.276 0-5.997 2.372-6.6 5.51A1.261 1.261 0 0 0 0 6.756v2.494c0 .7.56 1.267 1.253 1.267.39 0 .735-.185.964-.468a5.822 5.822 0 0 0 3.11 3.27.663.663 0 0 1 .063-.102c.022-.029.047-.052.069-.052.022 0 .043.008.06.02-.33-.246-1.523-1.51-1.782-3.275-.113-.776.469-1.538 1.146-1.664 1.087-.203 2.17-.434 3.257-.632.691-.126 1.164-.506 1.452-1.137.068-.148.166-.446.21-.876a.135.135 0 0 1 .132-.114c.045 0 .083.023.109.056l.03-.018c.428.622 1.278 2 1.4 3.453.14 1.66.062 2.799-1.21 3.962a.104.104 0 0 0-.033.076c0 .036.02.067.047.085l.032.015c.008.002.016.005.025.005.008 0 .016-.003.024-.005l.053-.03a5.815 5.815 0 0 0 2.728-3.314c.184.274.473.47.809.54-.539 2.448-2.722 3.98-5.427 4.213a1.107 1.107 0 0 0-1.03-.688c-.612 0-1.109.485-1.109 1.082 0 .598.497 1.082 1.109 1.082.493 0 .907-.317 1.05-.753 3.132-.254 5.642-2.115 6.166-5.007.463-.194.788-.648.788-1.178V6.538c0-.706-.576-1.278-1.287-1.278Zm-1.155.725c-.816-2.212-2.933-3.793-5.422-3.793-2.48 0-4.588 1.567-5.413 3.765-.04-.05-.089-.093-.136-.136.467-2.679 2.772-4.715 5.551-4.715 2.767 0 5.065 2.016 5.547 4.676-.048.064-.092.13-.127.203Z"
-                        fill="#FBC851" fill-rule="nonzero">
-                    </path>
-                </svg>
-                遇到问题，点这里联系客服 >>
-            </a>
+                <a href="#" class="help-link">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M7.82 12.623A2.006 2.006 0 0 0 9.72 11.24a.113.113 0 0 0-.06-.14.115.115 0 0 0-.146.047c-.003.005-.308.498-1.496.658-.178.024-.351.036-.515.036-.833 0-1.203-.314-1.207-.317a.114.114 0 0 0-.172.146 2.01 2.01 0 0 0 1.697.953Zm6.388-7.363-.03.002C13.482 2.248 10.822 0 7.633 0c-3.276 0-5.997 2.372-6.6 5.51A1.261 1.261 0 0 0 0 6.756v2.494c0 .7.56 1.267 1.253 1.267.39 0 .735-.185.964-.468a5.822 5.822 0 0 0 3.11 3.27.663.663 0 0 1 .063-.102c.022-.029.047-.052.069-.052.022 0 .043.008.06.02-.33-.246-1.523-1.51-1.782-3.275-.113-.776.469-1.538 1.146-1.664 1.087-.203 2.17-.434 3.257-.632.691-.126 1.164-.506 1.452-1.137.068-.148.166-.446.21-.876a.135.135 0 0 1 .132-.114c.045 0 .083.023.109.056l.03-.018c.428.622 1.278 2 1.4 3.453.14 1.66.062 2.799-1.21 3.962a.104.104 0 0 0-.033.076c0 .036.02.067.047.085l.032.015c.008.002.016.005.025.005.008 0 .016-.003.024-.005l.053-.03a5.815 5.815 0 0 0 2.728-3.314c.184.274.473.47.809.54-.539 2.448-2.722 3.98-5.427 4.213a1.107 1.107 0 0 0-1.03-.688c-.612 0-1.109.485-1.109 1.082 0 .598.497 1.082 1.109 1.082.493 0 .907-.317 1.05-.753 3.132-.254 5.642-2.115 6.166-5.007.463-.194.788-.648.788-1.178V6.538c0-.706-.576-1.278-1.287-1.278Zm-1.155.725c-.816-2.212-2.933-3.793-5.422-3.793-2.48 0-4.588 1.567-5.413 3.765-.04-.05-.089-.093-.136-.136.467-2.679 2.772-4.715 5.551-4.715 2.767 0 5.065 2.016 5.547 4.676-.048.064-.092.13-.127.203Z"
+                            fill="#FBC851" fill-rule="nonzero">
+                        </path>
+                    </svg>
+                    遇到问题，点这里联系客服 >>
+                </a>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import PhoneLogin from '@/render/screen/component/general/PhoneLogin.vue'
+import WechatLogin from '@/render/screen/component/general/WechatLogin.vue'
+import AccountLogin from '@/render/screen/component/general/AccountLogin.vue'
+
+const loginType = ref('phone');
+const switchLogin = (formData) => {
+    loginType.value = 'wechat';
+};
 
 const form = reactive({
     phone: '',
@@ -144,7 +139,6 @@ body {
     background-size: cover;
     position: relative;
     padding: 20px;
-    -webkit-app-region: drag;
     overflow: hidden;
     width: 100vw;
     height: 100vh;
@@ -292,85 +286,13 @@ body {
 .login-container {
     width: 300px;
     background: rgba(0, 0, 0, 0.8);
-    padding: 30px;
+    padding: 20px 30px;
     position: relative;
     z-index: 2;
     backdrop-filter: blur(10px);
     border: none;
     border-radius: 8px;
     margin-right: 35px;
-}
-
-.login-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.login-header h2 {
-    color: #fff;
-    font-size: 22px;
-    margin-bottom: 8px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.input-group {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    padding: 10px 12px;
-}
-
-.input-group input {
-    flex: 1;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 12px;
-    outline: none;
-}
-
-.input-group input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.input-group i {
-    color: rgba(255, 255, 255, 0.5);
-    margin-right: 10px;
-    font-size: 12px;
-}
-
-.get-code {
-    color: #FFD700;
-    text-decoration: none;
-    font-size: 11px;
-    float: right;
-}
-
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background: #FFD700;
-    border: none;
-    border-radius: 4px;
-    color: #000;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.login-button:hover {
-    background: #F0C800;
 }
 
 .agreement-text {
@@ -395,7 +317,7 @@ body {
 .other-login {
     margin-top: 5px;
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .other-login p {
@@ -422,24 +344,48 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .social-icon {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.social-icon img {
+.social-icon svg {
     width: 20px;
     height: 20px;
-    display: block;
+    pointer-events: none;
+}
+
+/* 强制提高悬停优先级 */
+.other-login .social-icons .social-item .social-icon.wechat:hover {
+    background-color: #07C160 !important;
+    transform: scale(1.1) !important;
+}
+
+.other-login .social-icons .social-item .social-icon.qq:hover {
+    background-color: #12B7F5 !important;
+    transform: scale(1.1) !important;
+}
+
+.social-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .help-link {
@@ -451,6 +397,7 @@ body {
     justify-content: center;
     width: 100%;
     gap: 5px;
+    margin-top: 20px;
 }
 
 .character-bg {
