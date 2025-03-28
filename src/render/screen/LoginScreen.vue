@@ -12,7 +12,8 @@
         <div class="login-container">
             <!-- 引用登录组件 -->
             <PhoneLogin v-if="loginType === 'phone'" @login="handleLogin" @showWechatLogin="showWechatLogin" />
-            <AccountLogin v-if="loginType === 'wechat'" @back="loginType = 'phone'" />
+            <WechatLogin v-if="loginType === 'wechat'" @back="loginType = 'phone'" />
+            <AccountLogin v-if="loginType === 'account'" @back="loginType = 'account'" />
 
             <div class="agreement-text">
                 登录/注册即代表同意
@@ -21,8 +22,19 @@
             <div class="other-login">
                 <p>其他登录方式</p>
                 <div class="social-icons">
-                    <div class="social-item">
-                        <a href="#" class="social-icon wechat" @click="switchLogin">
+                    <div v-if="loginType === 'wechat' || loginType === 'account'" class="social-item">
+                        <a href="#" class="social-icon phone" @click="switchPhoneLogin">
+                            <svg width="1em" height="1em" viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M16.035 21.289c0 .175-.027.344-.076.502a2.635 2.635 0 0 1-2.545 1.988H2.636c-1.224 0-2.259-.85-2.544-1.99a1.637 1.637 0 0 1-.077-.5V2.642A2.63 2.63 0 0 1 2.636.021h10.778a2.63 2.63 0 0 1 2.621 2.621Zm-8.04-2.17a1.33 1.33 0 0 0-1.324 1.325 1.33 1.33 0 0 0 1.325 1.325 1.33 1.33 0 0 0 1.325-1.325 1.33 1.33 0 0 0-1.325-1.325ZM13.415 2.03H2.636c-.48 0-.873.37-.873.822l-.001 15.493h12.525V2.853c0-.417-.335-.764-.764-.815l-.11-.007Z"
+                                    fill="#ffffff" fill-rule="nonzero">
+                                </path>
+                            </svg>
+                        </a>
+                        <span class="social-text">手机</span>
+                    </div>
+                    <div v-if="loginType === 'phone' || loginType === 'account'" class="social-item">
+                        <a href="#" class="social-icon wechat" @click="switchWechatLogin">
                             <svg width="1em" height="1em" viewBox="0 0 25 20" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M17.2 5.967C16.464 2.552 12.772 0 8.567 0 3.864.017.011 3.195.011 7.23c0 2.327 1.285 4.246 3.418 5.732l-.861 2.549 2.995-1.484c1.073.21 1.934.42 2.993.42.275 0 .537-.013.798-.037a6.48 6.48 0 0 1-.261-1.784c.012-3.7 3.219-6.707 7.285-6.707.273-.002.548.024.822.048Zm-4.354-1.285c0 .63-.423 1.064-1.072 1.064-.637 0-1.285-.42-1.285-1.064 0-.645.648-1.064 1.285-1.064.65 0 1.072.42 1.072 1.064ZM5.785 5.746c-.635 0-1.284-.42-1.284-1.064 0-.645.65-1.064 1.284-1.064.636 0 1.073.42 1.073 1.064 0 .63-.423 1.064-1.073 1.064Zm11.13.629c-4.067 0-7.274 2.772-7.274 6.163 0 3.403 3.207 6.164 7.273 6.164.85 0 1.71-.21 2.57-.42l2.346 1.274-.648-2.117c1.722-1.299 3.007-2.996 3.007-4.901 0-3.391-3.418-6.163-7.275-6.163Zm-3.22 4.244c0-.42.439-.855.862-.855.65 0 1.073.422 1.073.855 0 .435-.423.854-1.073.854-.423 0-.861-.42-.861-.854Zm4.717 0c0-.42.423-.855.85-.855.647 0 1.072.422 1.072.855 0 .435-.425.854-1.073.854-.424 0-.85-.42-.85-.854Z"
@@ -32,16 +44,16 @@
                         </a>
                         <span class="social-text">微信</span>
                     </div>
-                    <div class="social-item">
-                        <a href="#" class="social-icon qq">
-                            <svg width="1em" height="1em" viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg">
+                    <div v-if="loginType === 'phone' || loginType === 'wechat'" class="social-item">
+                        <a href="#" class="social-icon account" @click="switchAccountLogin">
+                            <svg width="15" height="17" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M16.035 21.289c0 .175-.027.344-.076.502a2.635 2.635 0 0 1-2.545 1.988H2.636c-1.224 0-2.259-.85-2.544-1.99a1.637 1.637 0 0 1-.077-.5V2.642A2.63 2.63 0 0 1 2.636.021h10.778a2.63 2.63 0 0 1 2.621 2.621Zm-8.04-2.17a1.33 1.33 0 0 0-1.324 1.325 1.33 1.33 0 0 0 1.325 1.325 1.33 1.33 0 0 0 1.325-1.325 1.33 1.33 0 0 0-1.325-1.325ZM13.415 2.03H2.636c-.48 0-.873.37-.873.822l-.001 15.493h12.525V2.853c0-.417-.335-.764-.764-.815l-.11-.007Z"
+                                    d="M2.44 16.814a2.437 2.437 0 0 1-2.436-2.437V9.26a2.437 2.437 0 0 1 2.437-2.437h.466V4.599A4.593 4.593 0 0 1 7.495.012a4.593 4.593 0 0 1 4.588 4.587v2.225h.476a2.437 2.437 0 0 1 2.437 2.436v5.118a2.437 2.437 0 0 1-2.437 2.437H2.441ZM1.63 9.26v5.117a.812.812 0 0 0 .812.813h10.117a.812.812 0 0 0 .813-.813V9.26a.812.812 0 0 0-.813-.813H2.441a.812.812 0 0 0-.812.813Zm8.829-2.437V4.599a2.967 2.967 0 0 0-2.963-2.963A2.967 2.967 0 0 0 4.532 4.6v2.225l5.926-.001ZM6.416 12.8v-2.265a.812.812 0 1 1 1.625 0v2.266a.812.812 0 1 1-1.625 0V12.8Z"
                                     fill="#ffffff" fill-rule="nonzero">
                                 </path>
                             </svg>
                         </a>
-                        <span class="social-text">QQ</span>
+                        <span class="social-text">账密</span>
                     </div>
                 </div>
                 <a href="#" class="help-link">
@@ -65,8 +77,16 @@ import WechatLogin from '@/render/screen/component/general/WechatLogin.vue'
 import AccountLogin from '@/render/screen/component/general/AccountLogin.vue'
 
 const loginType = ref('phone');
-const switchLogin = (formData) => {
+const switchPhoneLogin = () => {
+    loginType.value = 'phone';
+};
+
+const switchWechatLogin = () => {
     loginType.value = 'wechat';
+};
+
+const switchAccountLogin = () => {
+    loginType.value = 'account';
 };
 
 const form = reactive({
@@ -355,8 +375,8 @@ body {
 }
 
 .social-icon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex;
@@ -366,8 +386,8 @@ body {
 }
 
 .social-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     pointer-events: none;
 }
 
@@ -377,8 +397,13 @@ body {
     transform: scale(1.1) !important;
 }
 
-.other-login .social-icons .social-item .social-icon.qq:hover {
+.other-login .social-icons .social-item .social-icon.phone:hover {
     background-color: #12B7F5 !important;
+    transform: scale(1.1) !important;
+}
+
+.other-login .social-icons .social-item .social-icon.account:hover {
+    background-color: #9400D3 !important;
     transform: scale(1.1) !important;
 }
 

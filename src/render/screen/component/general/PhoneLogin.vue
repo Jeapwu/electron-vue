@@ -42,6 +42,7 @@
                     <input type="text" v-model="form.code" placeholder="请输入验证码" required>
                     <a href="#" class="get-code" @click.prevent="getCode">获取验证码</a>
                 </div>
+                
             </div>
             <button type="submit" class="login-button">
                 <span>点击登录</span>

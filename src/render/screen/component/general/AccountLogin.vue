@@ -39,8 +39,7 @@
                             </g>
                         </svg>
                     </div>
-                    <input :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="请输入密码"
-                        required>
+                    <input :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="请输入密码" required>
                     <a href="#" class="toggle-password" @click.prevent="togglePasswordVisibility">
                         <svg v-if="!showPassword" viewBox="64 64 896 896" focusable="false" width="1em" height="1em"
                             fill="#FFFFFF80" aria-hidden="true">
@@ -59,6 +58,7 @@
                         </svg>
                     </a>
                 </div>
+                <a href="#" class="forgot-password" @click.prevent="handleForgotPassword">忘记密码？</a>
             </div>
             <button type="submit" class="login-button">
                 <span>点击登录</span>
@@ -160,6 +160,21 @@ const showAgreement = () => {
     font-size: 12px;
 }
 
+.forgot-password {
+    display: flex;
+    justify-content: right;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    margin-top: 5px;
+    margin-bottom: -10px;
+}
+
+.forgot-password:hover {
+    color: #FFD700;
+}
+
 .login-button {
     width: 100%;
     padding: 10px;
@@ -170,7 +185,6 @@ const showAgreement = () => {
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;

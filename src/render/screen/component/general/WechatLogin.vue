@@ -2,6 +2,7 @@
     <div class="phone-login">
         <div class="login-header">
             <h2>微信扫码登录</h2>
+            <!-- 使用微信扫描二维码关注公众号完成登录/注册 -->
         </div>
         <form @submit.prevent="handleSubmit">
             <div class="form-group">
