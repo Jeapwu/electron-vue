@@ -2,19 +2,11 @@ import { defineStore } from 'pinia';
 
 const useAccountStore = defineStore('accountStore', {
     state: () => ({
-        visible: false,
-        currentStep: 1,
-        countdown: 0,
+        showPassword: false,
         form: {
             phone: '',
-            code: '',
+            password: '',
         },
-        codeShow1: false,
-        codeShow2: false,
-        passwd: {
-            newPasswd: '',
-            retypePasswd: '',
-        }
     }),
 
     actions: {

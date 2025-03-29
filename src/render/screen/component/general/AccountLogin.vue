@@ -3,7 +3,7 @@
         <div class="login-header">
             <h2>账号密码登录</h2>
         </div>
-        <form @submit.prevent="handleSubmit">
+        <form>
             <div class="form-group">
                 <div class="input-group">
                     <div class="icon-phone">
@@ -41,7 +41,7 @@
                     </div>
                     <input :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="请输入密码"
                         required>
-                    <a href="#" class="toggle-password" @click.prevent="togglePasswordVisibility">
+                    <a href="#" class="toggle-password" @click.prevent="TogglePasswordShow">
                         <svg v-if="!showPassword" viewBox="64 64 896 896" focusable="false" width="1em" height="1em"
                             fill="#FFFFFF80" aria-hidden="true">
                             <path
@@ -59,7 +59,7 @@
                         </svg>
                     </a>
                 </div>
-                <a href="#" class="forgot-password" @click.prevent="handleForgetPassword">忘记密码？</a>
+                <a href="#" class="forgot-password" @click="ToggleForgetPassword">忘记密码？</a>
             </div>
             <button type="submit" class="login-button">
                 <span>点击登录</span>
@@ -70,31 +70,25 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import accountStore from '@/render/stores/AccountStore';
 import accountModalStore from '@/render/stores/AccountModalStore';
-export default {
-    setup() {
-        const showPassword = ref(false);
-        const form = reactive({
-            phone: '',
-            password: ''
-        });
 
-        const togglePasswordVisibility = () => {
+export default {
+    name: 'AccountLoginScreen',
+    setup() {
+        const { showPassword, form } = storeToRefs(accountStore);
+
+        const TogglePasswordShow = () => {
             showPassword.value = !showPassword.value;
         };
 
-        const handleSubmit = () => {
-            emit('login', form);
-        };
-
-        return { togglePasswordVisibility, form, showPassword, handleSubmit }
-    },
-    methods: {
-        handleForgetPassword() {
+        const ToggleForgetPassword = () => {
             accountModalStore.ToggleReset();
         }
-    }
+
+        return { TogglePasswordShow, form, showPassword, ToggleForgetPassword }
+    },
 }
 </script>
 
