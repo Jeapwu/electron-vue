@@ -92,7 +92,7 @@ export default {
     },
     methods: {
         handleForgetPassword() {
-            accountModalStore.SetVisiable(true);
+            accountModalStore.ToggleReset();
         }
     }
 }

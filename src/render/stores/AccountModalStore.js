@@ -43,7 +43,6 @@ const useAccountModalStore = defineStore('accountModalStore', {
                 return
             }
 
-            // Start countdown
             this.countdown = 60
             const timer = setInterval(() => {
                 this.countdown--
@@ -58,6 +57,16 @@ const useAccountModalStore = defineStore('accountModalStore', {
 
         async ToggleSubmit() {
             console.log('Form submitted:', this.form)
+        },
+
+        async ToggleReset() {
+            this.visible = true;
+            this.currentStep = 1;
+            this.countdown = 0;
+            this.codeShow1 = false;
+            this.codeShow2 = false;
+            this.form.phone = '';
+            this.form.code = '';
         }
     }
 });
