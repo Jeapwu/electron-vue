@@ -59,7 +59,7 @@
                         </svg>
                     </a>
                 </div>
-                <a href="#" class="forgot-password" @click.prevent="handleForgotPassword">忘记密码？</a>
+                <a href="#" class="forgot-password" @click.prevent="handleForgetPassword">忘记密码？</a>
             </div>
             <button type="submit" class="login-button">
                 <span>点击登录</span>
@@ -69,33 +69,37 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import { reactive, ref } from 'vue';
+export default {
+    setup() {
+        const showPassword = ref(false);
+        const form = reactive({
+            phone: '',
+            password: ''
+        });
 
-const emit = defineEmits(['login', 'showAgreement']);
+        const togglePasswordVisibility = () => {
+            showPassword.value = !showPassword.value;
+        };
 
-const showPassword = ref(false);
-const form = reactive({
-    phone: '',
-    password: ''
-});
+        const handleSubmit = () => {
+            emit('login', form);
+        };
 
-const togglePasswordVisibility = () => {
-    showPassword.value = !showPassword.value;
-};
-
-const handleSubmit = () => {
-    emit('login', form);
-};
-
-const showAgreement = () => {
-    emit('showAgreement');
-};
+        return { togglePasswordVisibility, form, showPassword, handleSubmit }
+    },
+    methods: {
+        handleForgetPassword() {
+            // 触发 forget-password 事件
+            console.log(11111)
+            this.$emit('forget-password')
+        }
+    }
+}
 </script>
 
 <style scoped>
-/* 从原样式中复制 login-container 及其子元素的所有样式 */
-
 .login-header {
     text-align: center;
     margin-bottom: 20px;

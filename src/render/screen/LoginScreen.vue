@@ -13,7 +13,7 @@
             <!-- 引用登录组件 -->
             <PhoneLogin v-if="loginType === 'phone'" />
             <WechatLogin v-if="loginType === 'wechat'" />
-            <AccountLogin v-if="loginType === 'account'" />
+            <AccountLogin v-if="loginType === 'account'" @forget-password="showPasswordModal = true" />
 
             <div class="agreement-text">
                 登录/注册即代表同意
@@ -69,76 +69,76 @@
         </div>
         <!-- 用户协议模态窗口 -->
         <AgreementModal v-model:visible="showAgreement" />
+        <AccountModal v-model:visible="showPasswordModal" />
     </div>
 </template>
 
-<script setup>
+<script>
 import { ref, reactive, onMounted } from 'vue'
 import PhoneLogin from '@/render/screen/component/general/PhoneLogin.vue'
 import WechatLogin from '@/render/screen/component/general/WechatLogin.vue'
 import AccountLogin from '@/render/screen/component/general/AccountLogin.vue'
 import AgreementModal from '@/render/screen/component/general/AgreementModal.vue'
+import AccountModal from '@/render/screen/component/general/AccountModal.vue'
 
-const loginType = ref('phone');
-const switchPhoneLogin = () => {
-    loginType.value = 'phone';
-};
+export default {
+    components: { PhoneLogin, WechatLogin, AccountLogin, AgreementModal, AccountModal },
+    setup() {
+        const showPasswordModal = ref(false);
+        const loginType = ref('phone');
+        const switchPhoneLogin = () => {
+            loginType.value = 'phone';
+        };
 
-const switchWechatLogin = () => {
-    loginType.value = 'wechat';
-};
+        const switchWechatLogin = () => {
+            loginType.value = 'wechat';
+        };
 
-const switchAccountLogin = () => {
-    loginType.value = 'account';
-};
+        const switchAccountLogin = () => {
+            loginType.value = 'account';
+        };
 
-const showAgreement = ref(false); // 添加控制模态窗口显示的变量
-const toggleShowAgreement = () => {
-    showAgreement.value = true;
-};
+        const showAgreement = ref(false); // 添加控制模态窗口显示的变量
+        const toggleShowAgreement = () => {
+            showAgreement.value = true;
+        };
 
-const form = reactive({
-    phone: '',
-    code: ''
-})
+        const showAccount = ref(false); // 添加控制模态窗口显示的变量
+        const toggleShowAccount = () => {
+            showAccount.value = true;
+        };
 
-const handleMinimize = () => {
-    // 处理最小化逻辑
-    console.log('最小化窗口')
+        const form = reactive({
+            phone: '',
+            code: ''
+        })
+
+        const handleMinimize = () => {
+            console.log('最小化窗口')
+        }
+
+        const handleClose = () => {
+            console.log('关闭窗口')
+        }
+
+        const handleLogin = () => {
+            // 处理登录逻辑
+            console.log('登录表单：', form)
+        }
+
+        const getCode = () => {
+            // 处理获取验证码逻辑
+            console.log('获取验证码')
+        }
+
+        return {
+            loginType, showAgreement, showAccount, showPasswordModal,
+            switchPhoneLogin, switchWechatLogin, switchAccountLogin,
+            toggleShowAgreement, toggleShowAccount, handleMinimize, handleClose, handleLogin, getCode
+        }
+    }
 }
 
-const handleClose = () => {
-    // 处理关闭逻辑
-    console.log('关闭窗口')
-}
-
-const handleLogin = () => {
-    // 处理登录逻辑
-    console.log('登录表单：', form)
-}
-
-const getCode = () => {
-    // 处理获取验证码逻辑
-    console.log('获取验证码')
-}
-
-onMounted(() => {
-    // 禁用缩放
-    document.body.style.zoom = '1'
-    document.body.style.transform = 'scale(1)'
-    document.body.style.transformOrigin = '0 0'
-
-    // 禁止双击最大化
-    document.addEventListener('dblclick', (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-    }, true)
-
-    // 禁止双击选择文本
-    document.addEventListener('selectstart', (e) => {
-        e.preventDefault()
-    }, true)
-})
 </script>
 
 <style scoped>
@@ -331,7 +331,7 @@ body {
     text-decoration: none;
     font-size: 12px;
     transition: color 0.2s ease;
-    margin-left: -5px; 
+    margin-left: -5px;
 }
 
 .agreement-link:hover {
