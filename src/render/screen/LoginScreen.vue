@@ -13,7 +13,7 @@
             <!-- 引用登录组件 -->
             <PhoneLogin v-if="loginType === 'phone'" />
             <WechatLogin v-if="loginType === 'wechat'" />
-            <AccountLogin v-if="loginType === 'account'" @forget-password="showPasswordModal = true" />
+            <AccountLogin v-if="loginType === 'account'" />
 
             <div class="agreement-text">
                 登录/注册即代表同意
@@ -69,7 +69,7 @@
         </div>
         <!-- 用户协议模态窗口 -->
         <AgreementModal v-model:visible="showAgreement" />
-        <AccountModal v-model:visible="showPasswordModal" />
+        <AccountModal @forget-password="showPasswordModal = true" />
     </div>
 </template>
 

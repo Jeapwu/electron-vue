@@ -1,9 +1,9 @@
 <template>
-    <div class="modal-overlay" v-if="visible" @click.self="close">
+    <div class="modal-overlay" v-if="visible">
         <div class="modal-container">
             <div class="modal-header">
-                <h3>密码重置</h3>
-                <button class="control-btn" @click="close">
+                <h3>忘记密码</h3>
+                <button class="control-btn" @click="Close">
                     <i class="icon-close"></i>
                 </button>
             </div>
@@ -52,10 +52,10 @@
 
                 <!-- Form content -->
                 <div class="form-container">
-                    <form class="custom-form" @submit.prevent="handleSubmit">
+                    <form class="custom-form" @submit.prevent="ToggleSubmit">
                         <!-- Step 1: Phone verification -->
                         <div v-if="currentStep === 1" class="form-step">
-                            <div class="ant-form-item">
+                            <div class="form-item">
                                 <label for="phone">绑定手机号</label>
                                 <div class="ant-input-wrapper">
                                     <span class="ant-input-prefix">
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
 
-                            <div class="ant-form-item">
+                            <div class="form-item">
                                 <label for="code">短信验证码</label>
                                 <div class="ant-input-wrapper">
                                     <span class="ant-input-prefix">
@@ -94,7 +94,7 @@
                                         class="ant-input">
                                     <span class="ant-input-suffix">
                                         <button type="button" class="code-btn" :disabled="countdown > 0"
-                                            @click="getVerificationCode">
+                                            @click="GetCode">
                                             <span>{{ countdown > 0 ? `${countdown}s后重试` : '获取验证码' }}</span>
                                         </button>
                                     </span>
@@ -104,9 +104,82 @@
 
                         <!-- Step 2: Reset password -->
                         <div v-if="currentStep === 2" class="form-step">
-                            <!-- Password reset form fields would go here -->
-                            <div class="password-reset-fields">
-                                <!-- Add your password reset fields -->
+                            <div class="form-item">
+                                <label for="phone">密<span>  </span>码:</label>
+                                <div class="ant-input-wrapper">
+                                    <span class="ant-input-prefix">
+                                        <svg width="10" height="14" xmlns="http://www.w3.org/2000/svg">
+                                            <g fill-rule="nonzero" fill="none">
+                                                <path
+                                                    d="M8.838 5.014H1.017C.463 5.014.01 5.467.01 6.02v6.257a1.01 1.01 0 0 0 1.006 1.006h7.821c.552 0 1.004-.454 1.004-1.006V6.02c0-.553-.452-1.006-1.004-1.006ZM5.551 8.603l.002 2.03c.001.513-.054.917-.626.917s-.62-.417-.62-.93L4.29 8.603s-.4-.353-.4-.958.464-.93 1.036-.93c.572 0 1.037.338 1.037.93 0 .593-.413.958-.413.958Z"
+                                                    fill="#FFC62D"></path>
+                                                <path
+                                                    d="M6.894 4.13V2.95A1.972 1.972 0 0 0 4.928.982 1.971 1.971 0 0 0 2.96 2.949V4.13h-.983V2.95A2.955 2.955 0 0 1 4.927 0a2.954 2.954 0 0 1 2.95 2.95v1.18h-.983Z"
+                                                    fill="#FFF"></path>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <input v-model="form.phone" id="phone" :type="codeShow1 ? 'text' : 'password'" maxlength="11"
+                                        placeholder="请输入密码" class="ant-input">
+                                    <span class="ant-input-suffix">
+                                        <a href="#" class="toggle-password" @click="ToggleCodeShow1">
+                                            <svg v-if="!codeShow1" viewBox="64 64 896 896" focusable="false" width="1em"
+                                                height="1em" fill="#FFFFFF80" aria-hidden="true">
+                                                <path
+                                                    d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z">
+                                                </path>
+                                                <path
+                                                    d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z">
+                                                </path>
+                                            </svg>
+                                            <svg v-else viewBox="64 64 896 896" focusable="false" data-icon="eye"
+                                                width="1em" height="1em" fill="#FFFFFF80" aria-hidden="true">
+                                                <path
+                                                    d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-item">
+                                <label for="code">确认密码:</label>
+                                <div class="ant-input-wrapper">
+                                    <span class="ant-input-prefix">
+                                        <svg width="10" height="14" xmlns="http://www.w3.org/2000/svg">
+                                            <g fill-rule="nonzero" fill="none">
+                                                <path
+                                                    d="M8.838 5.014H1.017C.463 5.014.01 5.467.01 6.02v6.257a1.01 1.01 0 0 0 1.006 1.006h7.821c.552 0 1.004-.454 1.004-1.006V6.02c0-.553-.452-1.006-1.004-1.006ZM5.551 8.603l.002 2.03c.001.513-.054.917-.626.917s-.62-.417-.62-.93L4.29 8.603s-.4-.353-.4-.958.464-.93 1.036-.93c.572 0 1.037.338 1.037.93 0 .593-.413.958-.413.958Z"
+                                                    fill="#FFC62D"></path>
+                                                <path
+                                                    d="M6.894 4.13V2.95A1.972 1.972 0 0 0 4.928.982 1.971 1.971 0 0 0 2.96 2.949V4.13h-.983V2.95A2.955 2.955 0 0 1 4.927 0a2.954 2.954 0 0 1 2.95 2.95v1.18h-.983Z"
+                                                    fill="#FFF"></path>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <input v-model="form.code" id="code" :type="codeShow2 ? 'text' : 'password'" maxlength="4" placeholder="请输入确认密码"
+                                        class="ant-input">
+                                    <span class="ant-input-suffix">
+                                        <a href="#" class="toggle-password" @click="ToggleCodeShow2">
+                                            <svg v-if="!codeShow2" viewBox="64 64 896 896" focusable="false" width="1em"
+                                                height="1em" fill="#FFFFFF80" aria-hidden="true">
+                                                <path
+                                                    d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z">
+                                                </path>
+                                                <path
+                                                    d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z">
+                                                </path>
+                                            </svg>
+                                            <svg v-else viewBox="64 64 896 896" focusable="false" data-icon="eye"
+                                                width="1em" height="1em" fill="#FFFFFF80" aria-hidden="true">
+                                                <path
+                                                    d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z">
+                                                </path>
+                                            </svg>
+                                        </a>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -120,7 +193,7 @@
                 </div>
 
                 <div class="action">
-                    <button type="button" class="action-btn" @click="nextStep">
+                    <button type="button" class="action-btn" @click="NextStep">
                         <span>{{ currentStep === 3 ? '完成' : '下一步' }}</span>
                     </button>
                 </div>
@@ -129,57 +202,42 @@
     </div>
 </template>
 
-<script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+<script>
+import { storeToRefs } from 'pinia';
+import accountModalStore from '@/render/stores/AccountModalStore';
 
-const props = defineProps({
-    visible: Boolean
-});
+export default {
+    name: "AccountModalScreen",
+    setup() {
+        const { visible, currentStep, countdown, form, codeShow1, codeShow2 } = storeToRefs(accountModalStore);
 
-const currentStep = ref(1);
-const countdown = ref(0);
-const form = ref({
-    phone: '',
-    code: ''
-});
+        const NextStep = () => {
+            accountModalStore.NextStep();
+        };
 
-const emit = defineEmits(['update:visible']);
+        const GetCode = () => {
+            accountModalStore.GetCode();
+        };
 
-const close = () => {
-    emit('update:visible', false);
-};
+        const ToggleCodeShow1 = () => {
+            accountModalStore.SetCodeShow1(!codeShow1.value);
+        };
 
-const nextStep = () => {
-    if (this.currentStep < 3) {
-        this.currentStep++
-    } else {
-        // Handle completion
-        this.$emit('close')
-    }
-};
+        const ToggleCodeShow2 = () => {
+            accountModalStore.SetCodeShow2(!codeShow2.value);
+        };
 
-const getVerificationCode = () => {
-    if (!this.form.phone) {
-        this.$message.error('请输入手机号')
-        return
-    }
+        const ToggleSubmit = () => {
+            accountModalStore.ToggleSubmit();
+        };
 
-    // Start countdown
-    this.countdown = 60
-    const timer = setInterval(() => {
-        this.countdown--
-        if (this.countdown <= 0) {
-            clearInterval(timer)
+        const Close = () => {
+            accountModalStore.SetVisiable(false);
         }
-    }, 1000)
 
-    // TODO: Send verification code request
-    console.log('Sending verification code to:', this.form.phone)
+        return { visible, currentStep, countdown, form, NextStep, GetCode, ToggleSubmit, Close, codeShow1, codeShow2, ToggleCodeShow1, ToggleCodeShow2 };
+    },
 };
-const handleSubmit = () => {
-    // Handle form submission
-    console.log('Form submitted:', this.form)
-}
 </script>
 
 <style scoped>
@@ -344,7 +402,7 @@ const handleSubmit = () => {
     margin-bottom: 12px;
 }
 
-.ant-form-item {
+.form-item {
     display: flex;
     justify-items: center;
     align-items: center;
@@ -353,7 +411,7 @@ const handleSubmit = () => {
     gap: 8px;
 }
 
-.ant-form-item label {
+.form-item label {
     white-space: nowrap;
     font-size: 14px;
 }
@@ -378,6 +436,7 @@ const handleSubmit = () => {
     outline: none;
     background: transparent;
     height: 26px;
+    color: #B0B0B0;
 }
 
 .ant-input-suffix {
@@ -390,6 +449,21 @@ const handleSubmit = () => {
     color: #FFD700;
     background: transparent;
     border: none;
+    font-size: 12px;
+}
+
+.toggle-password {
+    text-decoration: none;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.toggle-password svg {
+    width: 22px;
+    height: 15px;
+    vertical-align: middle;
 }
 
 .action {

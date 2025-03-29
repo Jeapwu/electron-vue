@@ -71,6 +71,7 @@
 
 <script>
 import { reactive, ref } from 'vue';
+import accountModalStore from '@/render/stores/AccountModalStore';
 export default {
     setup() {
         const showPassword = ref(false);
@@ -91,9 +92,7 @@ export default {
     },
     methods: {
         handleForgetPassword() {
-            // 触发 forget-password 事件
-            console.log(11111)
-            this.$emit('forget-password')
+            accountModalStore.SetVisiable(true);
         }
     }
 }
