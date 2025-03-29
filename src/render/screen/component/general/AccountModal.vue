@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-overlay" v-if="visible">
+    <div class="modal-overlay" v-if="visible" @click.self="Close">
         <div class="modal-container">
             <div class="modal-header">
                 <h3>忘记密码</h3>
@@ -119,8 +119,8 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <input v-model="form.phone" id="phone" :type="codeShow1 ? 'text' : 'password'" maxlength="11"
-                                        placeholder="请输入密码" class="ant-input">
+                                    <input v-model="passwd.newPasswd" id="phone" :type="codeShow1 ? 'text' : 'password'"
+                                        maxlength="11" placeholder="请输入密码" class="ant-input">
                                     <span class="ant-input-suffix">
                                         <a href="#" class="toggle-password" @click="ToggleCodeShow1">
                                             <svg v-if="!codeShow1" viewBox="64 64 896 896" focusable="false" width="1em"
@@ -158,7 +158,8 @@
                                             </g>
                                         </svg>
                                     </span>
-                                    <input v-model="form.code" id="code" :type="codeShow2 ? 'text' : 'password'" maxlength="4" placeholder="请输入确认密码"
+                                    <input v-model="passwd.retypePasswd" id="code"
+                                        :type="codeShow2 ? 'text' : 'password'" maxlength="4" placeholder="请输入确认密码"
                                         class="ant-input">
                                     <span class="ant-input-suffix">
                                         <a href="#" class="toggle-password" @click="ToggleCodeShow2">
@@ -209,7 +210,7 @@ import accountModalStore from '@/render/stores/AccountModalStore';
 export default {
     name: "AccountModalScreen",
     setup() {
-        const { visible, currentStep, countdown, form, codeShow1, codeShow2 } = storeToRefs(accountModalStore);
+        const { visible, currentStep, countdown, form, codeShow1, codeShow2, passwd } = storeToRefs(accountModalStore);
 
         const NextStep = () => {
             accountModalStore.NextStep();
@@ -235,7 +236,8 @@ export default {
             accountModalStore.SetVisiable(false);
         }
 
-        return { visible, currentStep, countdown, form, NextStep, GetCode, ToggleSubmit, Close, codeShow1, codeShow2, ToggleCodeShow1, ToggleCodeShow2 };
+        return { visible, currentStep, countdown, form, NextStep, passwd, GetCode, ToggleSubmit, Close, 
+            codeShow1, codeShow2, ToggleCodeShow1, ToggleCodeShow2 };
     },
 };
 </script>

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-const useAccountModalStore = defineStore('accountModalStore', {
+const useAccountStore = defineStore('accountStore', {
     state: () => ({
         visible: false,
         currentStep: 1,
@@ -55,7 +55,6 @@ const useAccountModalStore = defineStore('accountModalStore', {
                 }
             }, 1000)
 
-            // TODO: Send verification code request
             console.log('Sending verification code to:', this.form.phone)
         },
 
