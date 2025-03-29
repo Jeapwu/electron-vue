@@ -93,7 +93,7 @@
                                     <input v-model="form.code" id="code" type="text" maxlength="4" placeholder="请输入验证码"
                                         class="ant-input">
                                     <span class="ant-input-suffix">
-                                        <button type="button" class="ant-btn code-btn" :disabled="countdown > 0"
+                                        <button type="button" class="code-btn" :disabled="countdown > 0"
                                             @click="getVerificationCode">
                                             <span>{{ countdown > 0 ? `${countdown}s后重试` : '获取验证码' }}</span>
                                         </button>
@@ -119,8 +119,8 @@
                     </form>
                 </div>
 
-                <div class="action-buttons">
-                    <button type="button" class="ant-btn primary-btn" @click="nextStep">
+                <div class="action">
+                    <button type="button" class="action-btn" @click="nextStep">
                         <span>{{ currentStep === 3 ? '完成' : '下一步' }}</span>
                     </button>
                 </div>
@@ -362,7 +362,7 @@ const handleSubmit = () => {
     position: relative;
     display: flex;
     align-items: center;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #696969;
     border-radius: 2px;
     padding: 4px 11px;
     width: 100%;
@@ -384,31 +384,28 @@ const handleSubmit = () => {
     margin-left: 8px;
 }
 
-.ant-btn {
+.code-btn {
     white-space: nowrap;
     text-align: center;
-    user-select: none;
-    padding: 4px 4px;
-    font-size: 12px;
     color: #FFD700;
     background: transparent;
     border: none;
 }
 
-.code-btn {
-    color: #FFD700;
-}
-
-.primary-btn {
-    color: #000000;
-    background: #FFD700;
-    border-color: #FFD700;
-}
-
-.action-buttons {
+.action {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: right;
+}
+
+.action-btn {
+    text-align: center;
+    color: #000000;
+    background: #FFD700;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 2px;
 }
 </style>
