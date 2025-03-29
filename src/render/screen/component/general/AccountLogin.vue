@@ -39,7 +39,8 @@
                             </g>
                         </svg>
                     </div>
-                    <input :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="请输入密码" required>
+                    <input :type="showPassword ? 'text' : 'password'" v-model="form.password" placeholder="请输入密码"
+                        required>
                     <a href="#" class="toggle-password" @click.prevent="togglePasswordVisibility">
                         <svg v-if="!showPassword" viewBox="64 64 896 896" focusable="false" width="1em" height="1em"
                             fill="#FFFFFF80" aria-hidden="true">

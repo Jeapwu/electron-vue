@@ -17,7 +17,7 @@
 
             <div class="agreement-text">
                 登录/注册即代表同意
-                <a href="#" class="agreement-link" @click.prevent="showAgreement">《用户协议》</a>
+                <a href="#" class="agreement-link" @click.prevent="toggleShowAgreement">《用户协议》</a>
             </div>
             <div class="other-login">
                 <p>其他登录方式</p>
@@ -67,6 +67,8 @@
                 </a>
             </div>
         </div>
+        <!-- 用户协议模态窗口 -->
+        <AgreementModal v-model:visible="showAgreement" />
     </div>
 </template>
 
@@ -75,6 +77,7 @@ import { ref, reactive, onMounted } from 'vue'
 import PhoneLogin from '@/render/screen/component/general/PhoneLogin.vue'
 import WechatLogin from '@/render/screen/component/general/WechatLogin.vue'
 import AccountLogin from '@/render/screen/component/general/AccountLogin.vue'
+import AgreementModal from '@/render/screen/component/general/AgreementModal.vue'
 
 const loginType = ref('phone');
 const switchPhoneLogin = () => {
@@ -87,6 +90,11 @@ const switchWechatLogin = () => {
 
 const switchAccountLogin = () => {
     loginType.value = 'account';
+};
+
+const showAgreement = ref(false); // 添加控制模态窗口显示的变量
+const toggleShowAgreement = () => {
+    showAgreement.value = true;
 };
 
 const form = reactive({
@@ -112,11 +120,6 @@ const handleLogin = () => {
 const getCode = () => {
     // 处理获取验证码逻辑
     console.log('获取验证码')
-}
-
-const showAgreement = () => {
-    // 处理显示用户协议逻辑
-    console.log('显示用户协议')
 }
 
 onMounted(() => {
@@ -318,16 +321,17 @@ body {
 .agreement-text {
     margin-top: 10px;
     text-align: center;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .agreement-link {
-    color: #FFD700;
+    color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px;
     transition: color 0.2s ease;
+    margin-left: -5px; 
 }
 
 .agreement-link:hover {
@@ -342,7 +346,7 @@ body {
 
 .other-login p {
     color: rgba(255, 255, 255, 0.5);
-    font-size: 13px;
+    font-size: 12px;
     margin-bottom: 12px;
     position: relative;
     display: flex;
@@ -416,7 +420,7 @@ body {
 .help-link {
     color: #FFD700;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
